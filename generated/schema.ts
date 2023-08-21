@@ -11,6 +11,76 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class User extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save User entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type User must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("User", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): User | null {
+    return changetype<User | null>(store.get_in_block("User", id));
+  }
+
+  static load(id: string): User | null {
+    return changetype<User | null>(store.get("User", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get gold(): i32 {
+    let value = this.get("gold");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set gold(value: i32) {
+    this.set("gold", Value.fromI32(value));
+  }
+
+  get gem(): i32 {
+    let value = this.get("gem");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set gem(value: i32) {
+    this.set("gem", Value.fromI32(value));
+  }
+
+  get players(): PlayerLoader {
+    return new PlayerLoader("User", this.get("id")!.toString(), "players");
+  }
+}
+
 export class Player extends Entity {
   constructor(id: string) {
     super();
@@ -27,6 +97,10 @@ export class Player extends Entity {
       );
       store.set("Player", id.toString(), this);
     }
+  }
+
+  static loadInBlock(id: string): Player | null {
+    return changetype<Player | null>(store.get_in_block("Player", id));
   }
 
   static load(id: string): Player | null {
@@ -59,17 +133,17 @@ export class Player extends Entity {
     this.set("Player_id", Value.fromBigInt(value));
   }
 
-  get owner(): Bytes {
-    let value = this.get("owner");
+  get user(): string {
+    let value = this.get("user");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toBytes();
+      return value.toString();
     }
   }
 
-  set owner(value: Bytes) {
-    this.set("owner", Value.fromBytes(value));
+  set user(value: string) {
+    this.set("user", Value.fromString(value));
   }
 
   get name(): string {
@@ -85,6 +159,58 @@ export class Player extends Entity {
     this.set("name", Value.fromString(value));
   }
 
+  get classes(): string {
+    let value = this.get("classes");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set classes(value: string) {
+    this.set("classes", Value.fromString(value));
+  }
+
+  get stats(): string {
+    let value = this.get("stats");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set stats(value: string) {
+    this.set("stats", Value.fromString(value));
+  }
+
+  get exp(): i32 {
+    let value = this.get("exp");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set exp(value: i32) {
+    this.set("exp", Value.fromI32(value));
+  }
+
+  get level(): i32 {
+    let value = this.get("level");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set level(value: i32) {
+    this.set("level", Value.fromI32(value));
+  }
+
   get strength(): i32 {
     let value = this.get("strength");
     if (!value || value.kind == ValueKind.NULL) {
@@ -98,8 +224,8 @@ export class Player extends Entity {
     this.set("strength", Value.fromI32(value));
   }
 
-  get health(): i32 {
-    let value = this.get("health");
+  get magic(): i32 {
+    let value = this.get("magic");
     if (!value || value.kind == ValueKind.NULL) {
       return 0;
     } else {
@@ -107,12 +233,12 @@ export class Player extends Entity {
     }
   }
 
-  set health(value: i32) {
-    this.set("health", Value.fromI32(value));
+  set magic(value: i32) {
+    this.set("magic", Value.fromI32(value));
   }
 
-  get mana(): i32 {
-    let value = this.get("mana");
+  get agility(): i32 {
+    let value = this.get("agility");
     if (!value || value.kind == ValueKind.NULL) {
       return 0;
     } else {
@@ -120,8 +246,1194 @@ export class Player extends Entity {
     }
   }
 
-  set mana(value: i32) {
-    this.set("mana", Value.fromI32(value));
+  set agility(value: i32) {
+    this.set("agility", Value.fromI32(value));
+  }
+
+  get defense(): i32 {
+    let value = this.get("defense");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set defense(value: i32) {
+    this.set("defense", Value.fromI32(value));
+  }
+
+  get currentHealth(): i32 {
+    let value = this.get("currentHealth");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set currentHealth(value: i32) {
+    this.set("currentHealth", Value.fromI32(value));
+  }
+
+  get maxHealth(): i32 {
+    let value = this.get("maxHealth");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set maxHealth(value: i32) {
+    this.set("maxHealth", Value.fromI32(value));
+  }
+
+  get currentMana(): i32 {
+    let value = this.get("currentMana");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set currentMana(value: i32) {
+    this.set("currentMana", Value.fromI32(value));
+  }
+
+  get maxMana(): i32 {
+    let value = this.get("maxMana");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set maxMana(value: i32) {
+    this.set("maxMana", Value.fromI32(value));
+  }
+
+  get totalWins(): i32 {
+    let value = this.get("totalWins");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set totalWins(value: i32) {
+    this.set("totalWins", Value.fromI32(value));
+  }
+
+  get totalLosses(): i32 {
+    let value = this.get("totalLosses");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set totalLosses(value: i32) {
+    this.set("totalLosses", Value.fromI32(value));
+  }
+
+  get potionBalance(): BasicPotionBalanceLoader {
+    return new BasicPotionBalanceLoader(
+      "Player",
+      this.get("id")!.toString(),
+      "potionBalance"
+    );
+  }
+
+  get equipment(): EquipmentLoader {
+    return new EquipmentLoader(
+      "Player",
+      this.get("id")!.toString(),
+      "equipment"
+    );
+  }
+
+  get arenaResult(): ArenaResultsLoader {
+    return new ArenaResultsLoader(
+      "Player",
+      this.get("id")!.toString(),
+      "arenaResult"
+    );
+  }
+}
+
+export class Equipment extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Equipment entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Equipment must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Equipment", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): Equipment | null {
+    return changetype<Equipment | null>(store.get_in_block("Equipment", id));
+  }
+
+  static load(id: string): Equipment | null {
+    return changetype<Equipment | null>(store.get("Equipment", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get slot(): string {
+    let value = this.get("slot");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set slot(value: string) {
+    this.set("slot", Value.fromString(value));
+  }
+
+  get rank(): i32 {
+    let value = this.get("rank");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set rank(value: i32) {
+    this.set("rank", Value.fromI32(value));
+  }
+
+  get value(): i32 {
+    let value = this.get("value");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set value(value: i32) {
+    this.set("value", Value.fromI32(value));
+  }
+
+  get stat(): string {
+    let value = this.get("stat");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set stat(value: string) {
+    this.set("stat", Value.fromString(value));
+  }
+
+  get player(): string {
+    let value = this.get("player");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set player(value: string) {
+    this.set("player", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get uri(): string {
+    let value = this.get("uri");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
+  }
+
+  get isEquipped(): boolean {
+    let value = this.get("isEquipped");
+    if (!value || value.kind == ValueKind.NULL) {
+      return false;
+    } else {
+      return value.toBoolean();
+    }
+  }
+
+  set isEquipped(value: boolean) {
+    this.set("isEquipped", Value.fromBoolean(value));
+  }
+}
+
+export class EquipmentInStore extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save EquipmentInStore entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type EquipmentInStore must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("EquipmentInStore", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): EquipmentInStore | null {
+    return changetype<EquipmentInStore | null>(
+      store.get_in_block("EquipmentInStore", id)
+    );
+  }
+
+  static load(id: string): EquipmentInStore | null {
+    return changetype<EquipmentInStore | null>(
+      store.get("EquipmentInStore", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get slot(): string {
+    let value = this.get("slot");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set slot(value: string) {
+    this.set("slot", Value.fromString(value));
+  }
+
+  get value(): i32 {
+    let value = this.get("value");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set value(value: i32) {
+    this.set("value", Value.fromI32(value));
+  }
+
+  get stat(): string {
+    let value = this.get("stat");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set stat(value: string) {
+    this.set("stat", Value.fromString(value));
+  }
+
+  get cost(): i32 {
+    let value = this.get("cost");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set cost(value: i32) {
+    this.set("cost", Value.fromI32(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get uri(): string {
+    let value = this.get("uri");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
+  }
+}
+
+export class BasicCraft extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save BasicCraft entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type BasicCraft must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("BasicCraft", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): BasicCraft | null {
+    return changetype<BasicCraft | null>(store.get_in_block("BasicCraft", id));
+  }
+
+  static load(id: string): BasicCraft | null {
+    return changetype<BasicCraft | null>(store.get("BasicCraft", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get slot(): string {
+    let value = this.get("slot");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set slot(value: string) {
+    this.set("slot", Value.fromString(value));
+  }
+
+  get value(): i32 {
+    let value = this.get("value");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set value(value: i32) {
+    this.set("value", Value.fromI32(value));
+  }
+
+  get cost(): i32 {
+    let value = this.get("cost");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set cost(value: i32) {
+    this.set("cost", Value.fromI32(value));
+  }
+
+  get oldName(): string {
+    let value = this.get("oldName");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set oldName(value: string) {
+    this.set("oldName", Value.fromString(value));
+  }
+
+  get newName(): string {
+    let value = this.get("newName");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set newName(value: string) {
+    this.set("newName", Value.fromString(value));
+  }
+
+  get uri(): string {
+    let value = this.get("uri");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
+  }
+}
+
+export class EquipCount extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save EquipCount entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type EquipCount must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("EquipCount", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): EquipCount | null {
+    return changetype<EquipCount | null>(store.get_in_block("EquipCount", id));
+  }
+
+  static load(id: string): EquipCount | null {
+    return changetype<EquipCount | null>(store.get("EquipCount", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get count(): i32 {
+    let value = this.get("count");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set count(value: i32) {
+    this.set("count", Value.fromI32(value));
+  }
+}
+
+export class Monster extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Monster entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Monster must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Monster", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): Monster | null {
+    return changetype<Monster | null>(store.get_in_block("Monster", id));
+  }
+
+  static load(id: string): Monster | null {
+    return changetype<Monster | null>(store.get("Monster", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get xpReward(): i32 {
+    let value = this.get("xpReward");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set xpReward(value: i32) {
+    this.set("xpReward", Value.fromI32(value));
+  }
+
+  get damage(): i32 {
+    let value = this.get("damage");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set damage(value: i32) {
+    this.set("damage", Value.fromI32(value));
+  }
+
+  get hp(): i32 {
+    let value = this.get("hp");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set hp(value: i32) {
+    this.set("hp", Value.fromI32(value));
+  }
+
+  get cooldown(): i32 {
+    let value = this.get("cooldown");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set cooldown(value: i32) {
+    this.set("cooldown", Value.fromI32(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get uri(): string {
+    let value = this.get("uri");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
+  }
+}
+
+export class MagicMonster extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save MagicMonster entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type MagicMonster must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("MagicMonster", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): MagicMonster | null {
+    return changetype<MagicMonster | null>(
+      store.get_in_block("MagicMonster", id)
+    );
+  }
+
+  static load(id: string): MagicMonster | null {
+    return changetype<MagicMonster | null>(store.get("MagicMonster", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get xpReward(): i32 {
+    let value = this.get("xpReward");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set xpReward(value: i32) {
+    this.set("xpReward", Value.fromI32(value));
+  }
+
+  get damage(): i32 {
+    let value = this.get("damage");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set damage(value: i32) {
+    this.set("damage", Value.fromI32(value));
+  }
+
+  get hp(): i32 {
+    let value = this.get("hp");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set hp(value: i32) {
+    this.set("hp", Value.fromI32(value));
+  }
+
+  get cooldown(): i32 {
+    let value = this.get("cooldown");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set cooldown(value: i32) {
+    this.set("cooldown", Value.fromI32(value));
+  }
+
+  get cost(): i32 {
+    let value = this.get("cost");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set cost(value: i32) {
+    this.set("cost", Value.fromI32(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get uri(): string {
+    let value = this.get("uri");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
+  }
+}
+
+export class BasicPotion extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save BasicPotion entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type BasicPotion must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("BasicPotion", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): BasicPotion | null {
+    return changetype<BasicPotion | null>(
+      store.get_in_block("BasicPotion", id)
+    );
+  }
+
+  static load(id: string): BasicPotion | null {
+    return changetype<BasicPotion | null>(store.get("BasicPotion", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get value(): i32 {
+    let value = this.get("value");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set value(value: i32) {
+    this.set("value", Value.fromI32(value));
+  }
+
+  get cost(): i32 {
+    let value = this.get("cost");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set cost(value: i32) {
+    this.set("cost", Value.fromI32(value));
+  }
+
+  get type(): string {
+    let value = this.get("type");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set type(value: string) {
+    this.set("type", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get uri(): string {
+    let value = this.get("uri");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
+  }
+
+  get potionBalance(): BasicPotionBalanceLoader {
+    return new BasicPotionBalanceLoader(
+      "BasicPotion",
+      this.get("id")!.toString(),
+      "potionBalance"
+    );
+  }
+}
+
+export class BasicPotionBalance extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save BasicPotionBalance entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type BasicPotionBalance must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("BasicPotionBalance", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): BasicPotionBalance | null {
+    return changetype<BasicPotionBalance | null>(
+      store.get_in_block("BasicPotionBalance", id)
+    );
+  }
+
+  static load(id: string): BasicPotionBalance | null {
+    return changetype<BasicPotionBalance | null>(
+      store.get("BasicPotionBalance", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get balance(): i32 {
+    let value = this.get("balance");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set balance(value: i32) {
+    this.set("balance", Value.fromI32(value));
+  }
+
+  get potion(): string {
+    let value = this.get("potion");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set potion(value: string) {
+    this.set("potion", Value.fromString(value));
+  }
+
+  get player(): string {
+    let value = this.get("player");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set player(value: string) {
+    this.set("player", Value.fromString(value));
+  }
+}
+
+export class Arena extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Arena entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Arena must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Arena", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): Arena | null {
+    return changetype<Arena | null>(store.get_in_block("Arena", id));
+  }
+
+  static load(id: string): Arena | null {
+    return changetype<Arena | null>(store.get("Arena", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get uri(): string {
+    let value = this.get("uri");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
+  }
+
+  get cost(): i32 {
+    let value = this.get("cost");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set cost(value: i32) {
+    this.set("cost", Value.fromI32(value));
+  }
+
+  get cooldown(): i32 {
+    let value = this.get("cooldown");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set cooldown(value: i32) {
+    this.set("cooldown", Value.fromI32(value));
+  }
+
+  get host(): string | null {
+    let value = this.get("host");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set host(value: string | null) {
+    if (!value) {
+      this.unset("host");
+    } else {
+      this.set("host", Value.fromString(<string>value));
+    }
+  }
+
+  get arenaResult(): ArenaResultsLoader {
+    return new ArenaResultsLoader(
+      "Arena",
+      this.get("id")!.toString(),
+      "arenaResult"
+    );
+  }
+}
+
+export class ArenaResults extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save ArenaResults entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type ArenaResults must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("ArenaResults", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): ArenaResults | null {
+    return changetype<ArenaResults | null>(
+      store.get_in_block("ArenaResults", id)
+    );
+  }
+
+  static load(id: string): ArenaResults | null {
+    return changetype<ArenaResults | null>(store.get("ArenaResults", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get player(): string {
+    let value = this.get("player");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set player(value: string) {
+    this.set("player", Value.fromString(value));
+  }
+
+  get arena(): string {
+    let value = this.get("arena");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set arena(value: string) {
+    this.set("arena", Value.fromString(value));
   }
 
   get wins(): i32 {
@@ -149,56 +1461,286 @@ export class Player extends Entity {
   set losses(value: i32) {
     this.set("losses", Value.fromI32(value));
   }
+}
 
-  get Mainwins(): i32 {
-    let value = this.get("Mainwins");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
+export class Sale extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Sale entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Sale must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Sale", id.toString(), this);
     }
   }
 
-  set Mainwins(value: i32) {
-    this.set("Mainwins", Value.fromI32(value));
+  static loadInBlock(id: string): Sale | null {
+    return changetype<Sale | null>(store.get_in_block("Sale", id));
   }
 
-  get Mainloss(): i32 {
-    let value = this.get("Mainloss");
+  static load(id: string): Sale | null {
+    return changetype<Sale | null>(store.get("Sale", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
     if (!value || value.kind == ValueKind.NULL) {
-      return 0;
+      throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toI32();
+      return value.toString();
     }
   }
 
-  set Mainloss(value: i32) {
-    this.set("Mainloss", Value.fromI32(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
-  get Secondwins(): i32 {
-    let value = this.get("Secondwins");
+  get price(): BigInt {
+    let value = this.get("price");
     if (!value || value.kind == ValueKind.NULL) {
-      return 0;
+      throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toI32();
+      return value.toBigInt();
     }
   }
 
-  set Secondwins(value: i32) {
-    this.set("Secondwins", Value.fromI32(value));
+  set price(value: BigInt) {
+    this.set("price", Value.fromBigInt(value));
   }
 
-  get Secondloss(): i32 {
-    let value = this.get("Secondloss");
+  get player(): string {
+    let value = this.get("player");
     if (!value || value.kind == ValueKind.NULL) {
-      return 0;
+      throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toI32();
+      return value.toString();
     }
   }
 
-  set Secondloss(value: i32) {
-    this.set("Secondloss", Value.fromI32(value));
+  set player(value: string) {
+    this.set("player", Value.fromString(value));
+  }
+
+  get seller(): string {
+    let value = this.get("seller");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set seller(value: string) {
+    this.set("seller", Value.fromString(value));
+  }
+
+  get buyer(): string {
+    let value = this.get("buyer");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set buyer(value: string) {
+    this.set("buyer", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get txHash(): string {
+    let value = this.get("txHash");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set txHash(value: string) {
+    this.set("txHash", Value.fromString(value));
+  }
+}
+
+export class Listing extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Listing entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Listing must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Listing", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): Listing | null {
+    return changetype<Listing | null>(store.get_in_block("Listing", id));
+  }
+
+  static load(id: string): Listing | null {
+    return changetype<Listing | null>(store.get("Listing", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get price(): BigInt {
+    let value = this.get("price");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set price(value: BigInt) {
+    this.set("price", Value.fromBigInt(value));
+  }
+
+  get seller(): string {
+    let value = this.get("seller");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set seller(value: string) {
+    this.set("seller", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get player(): string {
+    let value = this.get("player");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set player(value: string) {
+    this.set("player", Value.fromString(value));
+  }
+}
+
+export class PlayerLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): Player[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<Player[]>(value);
+  }
+}
+
+export class BasicPotionBalanceLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): BasicPotionBalance[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<BasicPotionBalance[]>(value);
+  }
+}
+
+export class EquipmentLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): Equipment[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<Equipment[]>(value);
+  }
+}
+
+export class ArenaResultsLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): ArenaResults[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<ArenaResults[]>(value);
   }
 }

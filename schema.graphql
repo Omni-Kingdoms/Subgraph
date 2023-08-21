@@ -1,17 +1,140 @@
-
-type Player @entity {
-  id: String!
-  Player_id: BigInt! # uint256
-  owner: Bytes! # address
-  name: String! # uint256
-  strength: Int! #uint256
-  health: Int! #uint256
-  mana: Int! #uint256
-  wins: Int! #uint256
-  losses: Int #uint256
-  Mainwins: Int! #uint256
-  Mainloss: Int #uint256
-  Secondwins: Int! #uint256
-  Secondloss: Int #uint256
+type User @entity {
+  id: ID!
+  gold: Int!  
+  gem: Int!
+  players: [Player!]! @derivedFrom(field: "user")
 }
 
+type Player @entity {
+  id: ID!
+  Player_id: BigInt! #uint256
+  user: User! #address
+  name: String! #string
+  classes: String! #string
+  stats: String! #string
+  exp: Int! #uint256
+  level: Int! #uint256
+  strength: Int! #uint256
+  magic: Int! #uint256
+  agility: Int! #uint256
+  defense: Int! #uint256
+  currentHealth: Int! #uint256
+  maxHealth: Int! #uint256
+  currentMana: Int! #uint256
+  maxMana: Int! #uint256
+  totalWins: Int! #uint256
+  totalLosses: Int! #uint256
+  potionBalance: [BasicPotionBalance!]! @derivedFrom(field: "player") 
+  equipment: [Equipment!]! @derivedFrom(field: "player") 
+  arenaResult: [ArenaResults!]! @derivedFrom(field: "player")
+}
+
+type Equipment @entity {
+  id: ID!
+  slot: String! #string
+  rank: Int! #uint256
+  value: Int! #uint256
+  stat: String! #string
+  player: Player!
+  name: String! #string
+  uri: String! #string
+  isEquipped: Boolean! #bool
+}
+
+type EquipmentInStore @entity{
+  id: ID!
+  slot: String! #string
+  value: Int! #uint256
+  stat: String! #string
+  cost: Int! #uint256
+  name: String! #string
+  uri: String! #string
+}
+
+type BasicCraft @entity {
+  id: ID!
+  slot: String! #string
+  value: Int! #uint256
+  cost: Int! #string
+  oldName: String! #string
+  newName: String! #string
+  uri: String! #string
+}
+
+type EquipCount @entity {
+  id: ID!
+  count: Int! #uint256
+}
+
+type Monster @entity {
+  id: ID!
+  xpReward: Int! #uint256
+  damage: Int! #address
+  hp: Int! #string
+  cooldown: Int! #uint256
+  name: String! #uint256
+  uri: String! #uint256
+}
+type MagicMonster @entity {
+  id: ID!
+  xpReward: Int! #uint256
+  damage: Int! #address
+  hp: Int! #string
+  cooldown: Int! #uint256
+  cost: Int! #uint256
+  name: String! #uint256
+  uri: String! #uint256
+}
+
+type BasicPotion @entity {
+  id: ID!
+  value: Int! #uint256
+  cost: Int! #uint256
+  type: String! #uint256
+  name: String! #string
+  uri: String! #string
+  potionBalance: [BasicPotionBalance!]! @derivedFrom(field: "potion")
+}
+
+type BasicPotionBalance @entity{
+  id: ID!
+  balance: Int!
+  potion: BasicPotion!
+  player: Player! #uint256
+}
+
+type Arena @entity {
+  id: ID!
+  name: String! #string
+  uri: String! #string
+  cost: Int! #uint256
+  cooldown: Int! #uint256
+  host: Player #string
+  arenaResult: [ArenaResults!]! @derivedFrom(field: "arena")
+}
+
+type ArenaResults @entity {
+  id: ID!
+  player: Player!
+  arena: Arena!
+  wins: Int! #uint256
+  losses: Int! #uint256
+}
+
+type Sale @entity {
+  id: ID!
+  price: BigInt! #uint256
+  player: Player! 
+  seller: String! #string
+  buyer: String! #string
+  timestamp: BigInt!
+  txHash: String! #string
+}
+
+type Listing @entity {
+  id: ID!
+  price: BigInt!
+  seller: String! #uint256
+  timestamp: BigInt!
+  player: Player!
+}

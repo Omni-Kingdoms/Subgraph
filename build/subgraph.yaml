@@ -3,40 +3,99 @@ schema:
   file: schema.graphql
 dataSources:
   - kind: ethereum
-    name: Sk
-    network: scrollAlpha
+    name: OKP
+    network: scrollSepolia
     source:
-      address: "0x545Ad75E4A297Ff1cdb85147F5D0C8DFA0bA21E1"
-      abi: Sk
-      startBlock: 1337132
+      address: "0xE62a60247D0b9c1D09193b0F60875bc49878f5DF"
+      abi: OKP
+      startBlock: 12504
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - MainLoss
-        - MainWin
-        - SecondLoss
-        - SecondWin
-        - Mint
-        - EndTrainingCombat
-        - EndTrainingMana
+        - User
+        - Player
+        - Equipment
+        - EquipmentInStore
+        - EquipCount
+        - Monster
+        - MagicMonster
+        - BasicPotion
+        - BasicPotionBalance
+        - Arena
+        - ArenaResults
+        - Sale
+        - Listing
+        - BasicCraft
       abis:
-        - name: Sk
-          file: Sk\abis\Sk.json
+        - name: OKP
+          file: OKP\abis\DIAMOND-1-HARDHAT.json
       eventHandlers:
-        - event: Mint(indexed uint256,indexed address,string,string)
+        - event: Mint(indexed uint256,indexed address,string,uint256)
           handler: handleMint
-        - event: MainLoss(indexed uint256)
-          handler: handleMainLoss
-        - event: MainWin(indexed uint256)
-          handler: handleMainWin
-        - event: EndTrainingCombat(indexed address,indexed uint256)
-          handler: handleEndTrainingCombat
+        - event: CreateBasicMonster(indexed
+            uint256,(uint256,uint256,uint256,uint256,uint256,string,string))
+          handler: handleCreateBasicMonster
+        - event: FightBasicMonster(indexed uint256,uint256)
+          handler: handleFightBasicMonster
+        - event: CreateMagicMonster(indexed
+            uint256,(uint256,uint256,uint256,uint256,uint256,uint256,string,string))
+          handler: handleCreateMagicMonster
+        - event: FightMagicMonster(indexed uint256,uint256)
+          handler: handleFightMagicMonster
+        - event: LevelUp(indexed uint256,indexed uint256)
+          handler: handleLevelUp
+        - event: CreateBasicPotion(indexed uint256,(uint256,uint256,uint256,bool,string,string))
+          handler: handleCreateBasicPotion
+        - event: PurchaseBasicPotion(uint256,indexed uint256)
+          handler: handlePurchaseBasicPotion
+        - event: ConsumeBasicPotion(uint256,indexed uint256)
+          handler: handleConsumeBasicPotion
+        - event: BasicEquipmentSchemaCreated(indexed uint256,indexed
+            uint256,string,(uint256,uint256,uint256,uint256,uint256,string,string))
+          handler: handleBasicEquipmentSchemaCreated
+        - event: PurchaseBasicEquipment(indexed uint256,uint256)
+          handler: handlePurchaseBasicEquipment
+        - event: CreateBasicArena(uint256,(uint256,uint256,uint256,uint256,bool,address,string,string))
+          handler: handleCreateBasicArena
+        - event: BasicArenaLoss(indexed uint256,indexed uint256)
+          handler: handleBasicArenaLoss
+        - event: BasicArenaWin(indexed uint256,indexed uint256)
+          handler: handleBasicArenaWin
+        - event: ItemEquiped(indexed address,indexed uint256,indexed uint256)
+          handler: handleItemEquiped
+        - event: ItemUnequiped(indexed address,indexed uint256,indexed uint256)
+          handler: handleItemUnequiped
+        - event: EnterBasicArena(indexed uint256,indexed uint256)
+          handler: handleEnterBasicArena
+        - event: LeaveBasicArena(indexed uint256,indexed uint256)
+          handler: handleLeaveBasicArena
+        - event: BeginTrainingBasicHealth(indexed address,indexed uint256)
+          handler: handleBeginTrainingBasicHealth
+        - event: EndTrainingBasicHealth(indexed address,indexed uint256)
+          handler: handleEndTrainingBasicHealth
+        - event: BeginTrainingMana(indexed address,indexed uint256)
+          handler: handleBeginTrainingMana
         - event: EndTrainingMana(indexed address,indexed uint256)
           handler: handleEndTrainingMana
-        - event: SecondLoss(indexed uint256)
-          handler: handleSecondLoss
-        - event: SecondWin(indexed uint256)
-          handler: handleSecondWin
-      file: Sk\Sk.wasm
+        - event: BeginQuesting(indexed address,uint256)
+          handler: handleBeginQuesting
+        - event: EndQuesting(indexed address,uint256)
+          handler: handleEndQuesting
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: CreatePlayerListing(indexed address,indexed uint256,uint256)
+          handler: handleCreatePlayerListing
+        - event: DelistPlayer(indexed address,indexed uint256)
+          handler: handleDelistPlayer
+        - event: PurchasePlayerListing(indexed address,uint256)
+          handler: handlePurchasePlayerListing
+        - event: CreateBasicCraft(indexed
+            uint256,(uint256,uint256,uint256,uint256,string,string,string))
+          handler: handleCreateBasicCraft
+        - event: BasicCraftEvent(indexed uint256,uint256,uint256)
+          handler: handleBasicCraftEvent
+        - event: LevelUpPatch(indexed uint256)
+          handler: handleLevelUpPatch
+      file: OKP\OKP.wasm
