@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class OwnershipTransferred extends ethereum.Event {
@@ -178,6 +178,336 @@ export class LeaveBasicArena__Params {
   }
 }
 
+export class Approval extends ethereum.Event {
+  get params(): Approval__Params {
+    return new Approval__Params(this);
+  }
+}
+
+export class Approval__Params {
+  _event: Approval;
+
+  constructor(event: Approval) {
+    this._event = event;
+  }
+
+  get owner(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get approved(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
+export class ApprovalForAll extends ethereum.Event {
+  get params(): ApprovalForAll__Params {
+    return new ApprovalForAll__Params(this);
+  }
+}
+
+export class ApprovalForAll__Params {
+  _event: ApprovalForAll;
+
+  constructor(event: ApprovalForAll) {
+    this._event = event;
+  }
+
+  get owner(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get operator(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get approved(): boolean {
+    return this._event.parameters[2].value.toBoolean();
+  }
+}
+
+export class BridgeCreated extends ethereum.Event {
+  get params(): BridgeCreated__Params {
+    return new BridgeCreated__Params(this);
+  }
+}
+
+export class BridgeCreated__Params {
+  _event: BridgeCreated;
+
+  constructor(event: BridgeCreated) {
+    this._event = event;
+  }
+
+  get _chainId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get _portal(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get _diamond(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+}
+
+export class BridgePlayer extends ethereum.Event {
+  get params(): BridgePlayer__Params {
+    return new BridgePlayer__Params(this);
+  }
+}
+
+export class BridgePlayer__Params {
+  _event: BridgePlayer;
+
+  constructor(event: BridgePlayer) {
+    this._event = event;
+  }
+
+  get _playerId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get _format(): BridgePlayer_formatStruct {
+    return changetype<BridgePlayer_formatStruct>(
+      this._event.parameters[1].value.toTuple()
+    );
+  }
+}
+
+export class BridgePlayer_formatStruct extends ethereum.Tuple {
+  get level(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get xp(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get strength(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get health(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get magic(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get maxMana(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get agility(): BigInt {
+    return this[7].toBigInt();
+  }
+
+  get defense(): BigInt {
+    return this[8].toBigInt();
+  }
+
+  get baseChain(): BigInt {
+    return this[9].toBigInt();
+  }
+
+  get baseId(): BigInt {
+    return this[10].toBigInt();
+  }
+
+  get name(): string {
+    return this[11].toString();
+  }
+
+  get isMale(): boolean {
+    return this[12].toBoolean();
+  }
+
+  get sender(): Address {
+    return this[13].toAddress();
+  }
+}
+
+export class ReMintPlayer extends ethereum.Event {
+  get params(): ReMintPlayer__Params {
+    return new ReMintPlayer__Params(this);
+  }
+}
+
+export class ReMintPlayer__Params {
+  _event: ReMintPlayer;
+
+  constructor(event: ReMintPlayer) {
+    this._event = event;
+  }
+
+  get _playerId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get _format(): ReMintPlayer_formatStruct {
+    return changetype<ReMintPlayer_formatStruct>(
+      this._event.parameters[1].value.toTuple()
+    );
+  }
+}
+
+export class ReMintPlayer_formatStruct extends ethereum.Tuple {
+  get level(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get xp(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get strength(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get health(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get magic(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get maxMana(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get agility(): BigInt {
+    return this[7].toBigInt();
+  }
+
+  get defense(): BigInt {
+    return this[8].toBigInt();
+  }
+
+  get baseChain(): BigInt {
+    return this[9].toBigInt();
+  }
+
+  get baseId(): BigInt {
+    return this[10].toBigInt();
+  }
+
+  get name(): string {
+    return this[11].toString();
+  }
+
+  get isMale(): boolean {
+    return this[12].toBoolean();
+  }
+
+  get sender(): Address {
+    return this[13].toAddress();
+  }
+}
+
+export class ReceiveGold extends ethereum.Event {
+  get params(): ReceiveGold__Params {
+    return new ReceiveGold__Params(this);
+  }
+}
+
+export class ReceiveGold__Params {
+  _event: ReceiveGold;
+
+  constructor(event: ReceiveGold) {
+    this._event = event;
+  }
+
+  get _sender(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get _amount(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class SendGold extends ethereum.Event {
+  get params(): SendGold__Params {
+    return new SendGold__Params(this);
+  }
+}
+
+export class SendGold__Params {
+  _event: SendGold;
+
+  constructor(event: SendGold) {
+    this._event = event;
+  }
+
+  get _sender(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get _amount(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class Transfer extends ethereum.Event {
+  get params(): Transfer__Params {
+    return new Transfer__Params(this);
+  }
+}
+
+export class Transfer__Params {
+  _event: Transfer;
+
+  constructor(event: Transfer) {
+    this._event = event;
+  }
+
+  get from(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get to(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
+export class AdvancedCraftEvent extends ethereum.Event {
+  get params(): AdvancedCraftEvent__Params {
+    return new AdvancedCraftEvent__Params(this);
+  }
+}
+
+export class AdvancedCraftEvent__Params {
+  _event: AdvancedCraftEvent;
+
+  constructor(event: AdvancedCraftEvent) {
+    this._event = event;
+  }
+
+  get _playerId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get _equipmentId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get _advancedCraftId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
 export class BasicCraftEvent extends ethereum.Event {
   get params(): BasicCraftEvent__Params {
     return new BasicCraftEvent__Params(this);
@@ -263,6 +593,130 @@ export class BasicEquipmentSchemaCreated_basicEQuipmentSchemaStruct extends ethe
 
   get uri(): string {
     return this[6].toString();
+  }
+}
+
+export class BasicEquipmentSchemaUpdate extends ethereum.Event {
+  get params(): BasicEquipmentSchemaUpdate__Params {
+    return new BasicEquipmentSchemaUpdate__Params(this);
+  }
+}
+
+export class BasicEquipmentSchemaUpdate__Params {
+  _event: BasicEquipmentSchemaUpdate;
+
+  constructor(event: BasicEquipmentSchemaUpdate) {
+    this._event = event;
+  }
+
+  get _basicEquipmentSchemaId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get _value(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get _uri(): string {
+    return this._event.parameters[2].value.toString();
+  }
+
+  get _basicEQuipmentSchema(): BasicEquipmentSchemaUpdate_basicEQuipmentSchemaStruct {
+    return changetype<BasicEquipmentSchemaUpdate_basicEQuipmentSchemaStruct>(
+      this._event.parameters[3].value.toTuple()
+    );
+  }
+}
+
+export class BasicEquipmentSchemaUpdate_basicEQuipmentSchemaStruct extends ethereum.Tuple {
+  get basicEquipmentSchemaId(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get slot(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get value(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get stat(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get cost(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get name(): string {
+    return this[5].toString();
+  }
+
+  get uri(): string {
+    return this[6].toString();
+  }
+}
+
+export class CreateAdvancedCraft extends ethereum.Event {
+  get params(): CreateAdvancedCraft__Params {
+    return new CreateAdvancedCraft__Params(this);
+  }
+}
+
+export class CreateAdvancedCraft__Params {
+  _event: CreateAdvancedCraft;
+
+  constructor(event: CreateAdvancedCraft) {
+    this._event = event;
+  }
+
+  get id(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get _advancedCraft(): CreateAdvancedCraft_advancedCraftStruct {
+    return changetype<CreateAdvancedCraft_advancedCraftStruct>(
+      this._event.parameters[1].value.toTuple()
+    );
+  }
+}
+
+export class CreateAdvancedCraft_advancedCraftStruct extends ethereum.Tuple {
+  get advancedCraftId(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get slot(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get value(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get stat(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get treasureSchemaId(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get oldName(): string {
+    return this[6].toString();
+  }
+
+  get newName(): string {
+    return this[7].toString();
+  }
+
+  get uri(): string {
+    return this[8].toString();
   }
 }
 
@@ -384,84 +838,6 @@ export class DiamondCut_diamondCutStruct extends ethereum.Tuple {
   }
 }
 
-export class Approval extends ethereum.Event {
-  get params(): Approval__Params {
-    return new Approval__Params(this);
-  }
-}
-
-export class Approval__Params {
-  _event: Approval;
-
-  constructor(event: Approval) {
-    this._event = event;
-  }
-
-  get owner(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get approved(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get tokenId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
-export class ApprovalForAll extends ethereum.Event {
-  get params(): ApprovalForAll__Params {
-    return new ApprovalForAll__Params(this);
-  }
-}
-
-export class ApprovalForAll__Params {
-  _event: ApprovalForAll;
-
-  constructor(event: ApprovalForAll) {
-    this._event = event;
-  }
-
-  get owner(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get operator(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get approved(): boolean {
-    return this._event.parameters[2].value.toBoolean();
-  }
-}
-
-export class Transfer extends ethereum.Event {
-  get params(): Transfer__Params {
-    return new Transfer__Params(this);
-  }
-}
-
-export class Transfer__Params {
-  _event: Transfer;
-
-  constructor(event: Transfer) {
-    this._event = event;
-  }
-
-  get from(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get to(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get tokenId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
 export class Approval1 extends ethereum.Event {
   get params(): Approval1__Params {
     return new Approval1__Params(this);
@@ -540,6 +916,84 @@ export class Transfer1__Params {
   }
 }
 
+export class Approval2 extends ethereum.Event {
+  get params(): Approval2__Params {
+    return new Approval2__Params(this);
+  }
+}
+
+export class Approval2__Params {
+  _event: Approval2;
+
+  constructor(event: Approval2) {
+    this._event = event;
+  }
+
+  get owner(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get approved(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
+export class ApprovalForAll2 extends ethereum.Event {
+  get params(): ApprovalForAll2__Params {
+    return new ApprovalForAll2__Params(this);
+  }
+}
+
+export class ApprovalForAll2__Params {
+  _event: ApprovalForAll2;
+
+  constructor(event: ApprovalForAll2) {
+    this._event = event;
+  }
+
+  get owner(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get operator(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get approved(): boolean {
+    return this._event.parameters[2].value.toBoolean();
+  }
+}
+
+export class Transfer2 extends ethereum.Event {
+  get params(): Transfer2__Params {
+    return new Transfer2__Params(this);
+  }
+}
+
+export class Transfer2__Params {
+  _event: Transfer2;
+
+  constructor(event: Transfer2) {
+    this._event = event;
+  }
+
+  get from(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get to(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
 export class ItemEquiped extends ethereum.Event {
   get params(): ItemEquiped__Params {
     return new ItemEquiped__Params(this);
@@ -592,16 +1046,16 @@ export class ItemUnequiped__Params {
   }
 }
 
-export class Approval2 extends ethereum.Event {
-  get params(): Approval2__Params {
-    return new Approval2__Params(this);
+export class Approval3 extends ethereum.Event {
+  get params(): Approval3__Params {
+    return new Approval3__Params(this);
   }
 }
 
-export class Approval2__Params {
-  _event: Approval2;
+export class Approval3__Params {
+  _event: Approval3;
 
-  constructor(event: Approval2) {
+  constructor(event: Approval3) {
     this._event = event;
   }
 
@@ -618,16 +1072,16 @@ export class Approval2__Params {
   }
 }
 
-export class ApprovalForAll2 extends ethereum.Event {
-  get params(): ApprovalForAll2__Params {
-    return new ApprovalForAll2__Params(this);
+export class ApprovalForAll3 extends ethereum.Event {
+  get params(): ApprovalForAll3__Params {
+    return new ApprovalForAll3__Params(this);
   }
 }
 
-export class ApprovalForAll2__Params {
-  _event: ApprovalForAll2;
+export class ApprovalForAll3__Params {
+  _event: ApprovalForAll3;
 
-  constructor(event: ApprovalForAll2) {
+  constructor(event: ApprovalForAll3) {
     this._event = event;
   }
 
@@ -762,16 +1216,16 @@ export class PurchasePlayerListing__Params {
   }
 }
 
-export class Transfer2 extends ethereum.Event {
-  get params(): Transfer2__Params {
-    return new Transfer2__Params(this);
+export class Transfer3 extends ethereum.Event {
+  get params(): Transfer3__Params {
+    return new Transfer3__Params(this);
   }
 }
 
-export class Transfer2__Params {
-  _event: Transfer2;
+export class Transfer3__Params {
+  _event: Transfer3;
 
-  constructor(event: Transfer2) {
+  constructor(event: Transfer3) {
     this._event = event;
   }
 
@@ -1080,16 +1534,16 @@ export class NameChange__Params {
   }
 }
 
-export class Approval3 extends ethereum.Event {
-  get params(): Approval3__Params {
-    return new Approval3__Params(this);
+export class Approval4 extends ethereum.Event {
+  get params(): Approval4__Params {
+    return new Approval4__Params(this);
   }
 }
 
-export class Approval3__Params {
-  _event: Approval3;
+export class Approval4__Params {
+  _event: Approval4;
 
-  constructor(event: Approval3) {
+  constructor(event: Approval4) {
     this._event = event;
   }
 
@@ -1106,16 +1560,16 @@ export class Approval3__Params {
   }
 }
 
-export class ApprovalForAll3 extends ethereum.Event {
-  get params(): ApprovalForAll3__Params {
-    return new ApprovalForAll3__Params(this);
+export class ApprovalForAll4 extends ethereum.Event {
+  get params(): ApprovalForAll4__Params {
+    return new ApprovalForAll4__Params(this);
   }
 }
 
-export class ApprovalForAll3__Params {
-  _event: ApprovalForAll3;
+export class ApprovalForAll4__Params {
+  _event: ApprovalForAll4;
 
-  constructor(event: ApprovalForAll3) {
+  constructor(event: ApprovalForAll4) {
     this._event = event;
   }
 
@@ -1236,16 +1690,16 @@ export class SentTransferRemote__Params {
   }
 }
 
-export class Transfer3 extends ethereum.Event {
-  get params(): Transfer3__Params {
-    return new Transfer3__Params(this);
+export class Transfer4 extends ethereum.Event {
+  get params(): Transfer4__Params {
+    return new Transfer4__Params(this);
   }
 }
 
-export class Transfer3__Params {
-  _event: Transfer3;
+export class Transfer4__Params {
+  _event: Transfer4;
 
-  constructor(event: Transfer3) {
+  constructor(event: Transfer4) {
     this._event = event;
   }
 
@@ -1568,6 +2022,48 @@ export class ClaimTreasure__Params {
   }
 }
 
+export class MintTreasure extends ethereum.Event {
+  get params(): MintTreasure__Params {
+    return new MintTreasure__Params(this);
+  }
+}
+
+export class MintTreasure__Params {
+  _event: MintTreasure;
+
+  constructor(event: MintTreasure) {
+    this._event = event;
+  }
+
+  get _playerId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get _treasureSchemaId(): MintTreasure_treasureSchemaIdStruct {
+    return changetype<MintTreasure_treasureSchemaIdStruct>(
+      this._event.parameters[1].value.toTuple()
+    );
+  }
+}
+
+export class MintTreasure_treasureSchemaIdStruct extends ethereum.Tuple {
+  get basicTreasureId(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get rank(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get name(): string {
+    return this[2].toString();
+  }
+
+  get uri(): string {
+    return this[3].toString();
+  }
+}
+
 export class TreasureSchemaCreation extends ethereum.Event {
   get params(): TreasureSchemaCreation__Params {
     return new TreasureSchemaCreation__Params(this);
@@ -1581,8 +2077,28 @@ export class TreasureSchemaCreation__Params {
     this._event = event;
   }
 
-  get _treasureSchemaId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
+  get _treasureSchemaId(): TreasureSchemaCreation_treasureSchemaIdStruct {
+    return changetype<TreasureSchemaCreation_treasureSchemaIdStruct>(
+      this._event.parameters[0].value.toTuple()
+    );
+  }
+}
+
+export class TreasureSchemaCreation_treasureSchemaIdStruct extends ethereum.Tuple {
+  get basicTreasureId(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get rank(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get name(): string {
+    return this[2].toString();
+  }
+
+  get uri(): string {
+    return this[3].toString();
   }
 }
 
@@ -1670,16 +2186,16 @@ export class DiamondCut2_diamondCutStruct extends ethereum.Tuple {
   }
 }
 
-export class ApprovalForAll4 extends ethereum.Event {
-  get params(): ApprovalForAll4__Params {
-    return new ApprovalForAll4__Params(this);
+export class ApprovalForAll5 extends ethereum.Event {
+  get params(): ApprovalForAll5__Params {
+    return new ApprovalForAll5__Params(this);
   }
 }
 
-export class ApprovalForAll4__Params {
-  _event: ApprovalForAll4;
+export class ApprovalForAll5__Params {
+  _event: ApprovalForAll5;
 
-  constructor(event: ApprovalForAll4) {
+  constructor(event: ApprovalForAll5) {
     this._event = event;
   }
 
@@ -1786,16 +2302,16 @@ export class URI__Params {
   }
 }
 
-export class ApprovalForAll5 extends ethereum.Event {
-  get params(): ApprovalForAll5__Params {
-    return new ApprovalForAll5__Params(this);
+export class ApprovalForAll6 extends ethereum.Event {
+  get params(): ApprovalForAll6__Params {
+    return new ApprovalForAll6__Params(this);
   }
 }
 
-export class ApprovalForAll5__Params {
-  _event: ApprovalForAll5;
+export class ApprovalForAll6__Params {
+  _event: ApprovalForAll6;
 
-  constructor(event: ApprovalForAll5) {
+  constructor(event: ApprovalForAll6) {
     this._event = event;
   }
 
@@ -1924,84 +2440,6 @@ export class OwnershipTransferred3__Params {
   }
 }
 
-export class Approval4 extends ethereum.Event {
-  get params(): Approval4__Params {
-    return new Approval4__Params(this);
-  }
-}
-
-export class Approval4__Params {
-  _event: Approval4;
-
-  constructor(event: Approval4) {
-    this._event = event;
-  }
-
-  get owner(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get approved(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get tokenId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
-export class ApprovalForAll6 extends ethereum.Event {
-  get params(): ApprovalForAll6__Params {
-    return new ApprovalForAll6__Params(this);
-  }
-}
-
-export class ApprovalForAll6__Params {
-  _event: ApprovalForAll6;
-
-  constructor(event: ApprovalForAll6) {
-    this._event = event;
-  }
-
-  get owner(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get operator(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get approved(): boolean {
-    return this._event.parameters[2].value.toBoolean();
-  }
-}
-
-export class Transfer4 extends ethereum.Event {
-  get params(): Transfer4__Params {
-    return new Transfer4__Params(this);
-  }
-}
-
-export class Transfer4__Params {
-  _event: Transfer4;
-
-  constructor(event: Transfer4) {
-    this._event = event;
-  }
-
-  get from(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get to(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get tokenId(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
 export class Approval5 extends ethereum.Event {
   get params(): Approval5__Params {
     return new Approval5__Params(this);
@@ -2064,6 +2502,84 @@ export class Transfer5__Params {
   _event: Transfer5;
 
   constructor(event: Transfer5) {
+    this._event = event;
+  }
+
+  get from(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get to(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
+export class Approval6 extends ethereum.Event {
+  get params(): Approval6__Params {
+    return new Approval6__Params(this);
+  }
+}
+
+export class Approval6__Params {
+  _event: Approval6;
+
+  constructor(event: Approval6) {
+    this._event = event;
+  }
+
+  get owner(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get approved(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
+export class ApprovalForAll8 extends ethereum.Event {
+  get params(): ApprovalForAll8__Params {
+    return new ApprovalForAll8__Params(this);
+  }
+}
+
+export class ApprovalForAll8__Params {
+  _event: ApprovalForAll8;
+
+  constructor(event: ApprovalForAll8) {
+    this._event = event;
+  }
+
+  get owner(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get operator(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get approved(): boolean {
+    return this._event.parameters[2].value.toBoolean();
+  }
+}
+
+export class Transfer6 extends ethereum.Event {
+  get params(): Transfer6__Params {
+    return new Transfer6__Params(this);
+  }
+}
+
+export class Transfer6__Params {
+  _event: Transfer6;
+
+  constructor(event: Transfer6) {
     this._event = event;
   }
 
@@ -2184,6 +2700,70 @@ export class TrustedSignerChanged1__Params {
   }
 }
 
+export class OKP__getLatestOmniBlockResultValue0Struct extends ethereum.Tuple {
+  get sourceChain(): string {
+    return this[0].toString();
+  }
+
+  get parentHash(): Bytes {
+    return this[1].toBytes();
+  }
+
+  get hash(): Bytes {
+    return this[2].toBytes();
+  }
+
+  get number(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get txs(): Array<OKP__getLatestOmniBlockResultValue0TxsStruct> {
+    return this[4].toTupleArray<OKP__getLatestOmniBlockResultValue0TxsStruct>();
+  }
+}
+
+export class OKP__getLatestOmniBlockResultValue0TxsStruct extends ethereum.Tuple {
+  get sourceTxHash(): Bytes {
+    return this[0].toBytes();
+  }
+
+  get sourceChain(): string {
+    return this[1].toString();
+  }
+
+  get destChain(): string {
+    return this[2].toString();
+  }
+
+  get nonce(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get from(): Address {
+    return this[4].toAddress();
+  }
+
+  get to(): Address {
+    return this[5].toAddress();
+  }
+
+  get value(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get paid(): BigInt {
+    return this[7].toBigInt();
+  }
+
+  get gasLimit(): BigInt {
+    return this[8].toBigInt();
+  }
+
+  get data(): Bytes {
+    return this[9].toBytes();
+  }
+}
+
 export class OKP__getBasicArenaResultValue0Struct extends ethereum.Tuple {
   get basicArenaId(): BigInt {
     return this[0].toBigInt();
@@ -2215,6 +2795,176 @@ export class OKP__getBasicArenaResultValue0Struct extends ethereum.Tuple {
 
   get url(): string {
     return this[7].toString();
+  }
+}
+
+export class OKP__getChainDataResultValue0Struct extends ethereum.Tuple {
+  get chainId(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get name(): string {
+    return this[1].toString();
+  }
+
+  get portal(): Address {
+    return this[2].toAddress();
+  }
+
+  get diamond(): Address {
+    return this[3].toAddress();
+  }
+}
+
+export class OKP__getFormatResultValue0Struct extends ethereum.Tuple {
+  get level(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get xp(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get strength(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get health(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get magic(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get maxMana(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get agility(): BigInt {
+    return this[7].toBigInt();
+  }
+
+  get defense(): BigInt {
+    return this[8].toBigInt();
+  }
+
+  get baseChain(): BigInt {
+    return this[9].toBigInt();
+  }
+
+  get baseId(): BigInt {
+    return this[10].toBigInt();
+  }
+
+  get name(): string {
+    return this[11].toString();
+  }
+
+  get isMale(): boolean {
+    return this[12].toBoolean();
+  }
+
+  get sender(): Address {
+    return this[13].toAddress();
+  }
+}
+
+export class OKP__sanityCheckResult {
+  value0: BigInt;
+  value1: BigInt;
+  value2: BigInt;
+  value3: BigInt;
+  value4: BigInt;
+  value5: boolean;
+
+  constructor(
+    value0: BigInt,
+    value1: BigInt,
+    value2: BigInt,
+    value3: BigInt,
+    value4: BigInt,
+    value5: boolean
+  ) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+    this.value3 = value3;
+    this.value4 = value4;
+    this.value5 = value5;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
+    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set("value5", ethereum.Value.fromBoolean(this.value5));
+    return map;
+  }
+
+  getValue0(): BigInt {
+    return this.value0;
+  }
+
+  getValue1(): BigInt {
+    return this.value1;
+  }
+
+  getValue2(): BigInt {
+    return this.value2;
+  }
+
+  getValue3(): BigInt {
+    return this.value3;
+  }
+
+  getValue4(): BigInt {
+    return this.value4;
+  }
+
+  getValue5(): boolean {
+    return this.value5;
+  }
+}
+
+export class OKP__getAdvancedCraftResultValue0Struct extends ethereum.Tuple {
+  get advancedCraftId(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get slot(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get value(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get stat(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get treasureSchemaId(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get oldName(): string {
+    return this[6].toString();
+  }
+
+  get newName(): string {
+    return this[7].toString();
+  }
+
+  get uri(): string {
+    return this[8].toString();
   }
 }
 
@@ -2560,28 +3310,6 @@ export class OKP__getTransferParamsResult {
   }
 }
 
-export class OKP__getTreasureResultValue0Struct extends ethereum.Tuple {
-  get id(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get rank(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get pointer(): BigInt {
-    return this[2].toBigInt();
-  }
-
-  get name(): string {
-    return this[3].toString();
-  }
-
-  get uri(): string {
-    return this[4].toString();
-  }
-}
-
 export class OKP__getBasicPotionResultValue0Struct extends ethereum.Tuple {
   get basicHealthPotionSchemaId(): BigInt {
     return this[0].toBigInt();
@@ -2605,36 +3333,6 @@ export class OKP__getBasicPotionResultValue0Struct extends ethereum.Tuple {
 
   get uri(): string {
     return this[5].toString();
-  }
-}
-
-export class OKP__getTreasure1ResultValue0Struct extends ethereum.Tuple {
-  get id(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get treasureId(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get owner(): BigInt {
-    return this[2].toBigInt();
-  }
-
-  get rank(): BigInt {
-    return this[3].toBigInt();
-  }
-
-  get pointer(): BigInt {
-    return this[4].toBigInt();
-  }
-
-  get name(): string {
-    return this[5].toString();
-  }
-
-  get uri(): string {
-    return this[6].toString();
   }
 }
 
@@ -2669,6 +3367,161 @@ export class OKP__facets1ResultFacets_Struct extends ethereum.Tuple {
 export class OKP extends ethereum.SmartContract {
   static bind(address: Address): OKP {
     return new OKP("OKP", address);
+  }
+
+  chain(): string {
+    let result = super.call("chain", "chain():(string)", []);
+
+    return result[0].toString();
+  }
+
+  try_chain(): ethereum.CallResult<string> {
+    let result = super.tryCall("chain", "chain():(string)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
+  }
+
+  getLatestOmniBlock(): OKP__getLatestOmniBlockResultValue0Struct {
+    let result = super.call(
+      "getLatestOmniBlock",
+      "getLatestOmniBlock():((string,bytes32,bytes32,uint64,(bytes32,string,string,uint64,address,address,uint256,uint256,uint64,bytes)[]))",
+      []
+    );
+
+    return changetype<OKP__getLatestOmniBlockResultValue0Struct>(
+      result[0].toTuple()
+    );
+  }
+
+  try_getLatestOmniBlock(): ethereum.CallResult<
+    OKP__getLatestOmniBlockResultValue0Struct
+  > {
+    let result = super.tryCall(
+      "getLatestOmniBlock",
+      "getLatestOmniBlock():((string,bytes32,bytes32,uint64,(bytes32,string,string,uint64,address,address,uint256,uint256,uint64,bytes)[]))",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      changetype<OKP__getLatestOmniBlockResultValue0Struct>(value[0].toTuple())
+    );
+  }
+
+  isXChainTx(): boolean {
+    let result = super.call("isXChainTx", "isXChainTx():(bool)", []);
+
+    return result[0].toBoolean();
+  }
+
+  try_isXChainTx(): ethereum.CallResult<boolean> {
+    let result = super.tryCall("isXChainTx", "isXChainTx():(bool)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  supportedChains(param0: string): boolean {
+    let result = super.call(
+      "supportedChains",
+      "supportedChains(string):(bool)",
+      [ethereum.Value.fromString(param0)]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_supportedChains(param0: string): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "supportedChains",
+      "supportedChains(string):(bool)",
+      [ethereum.Value.fromString(param0)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  txSender(): Address {
+    let result = super.call("txSender", "txSender():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_txSender(): ethereum.CallResult<Address> {
+    let result = super.tryCall("txSender", "txSender():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  txSourceChain(): string {
+    let result = super.call("txSourceChain", "txSourceChain():(string)", []);
+
+    return result[0].toString();
+  }
+
+  try_txSourceChain(): ethereum.CallResult<string> {
+    let result = super.tryCall("txSourceChain", "txSourceChain():(string)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
+  }
+
+  verifyOmniState(
+    _blockNumber: BigInt,
+    _storageProof: Bytes,
+    _storageKey: Bytes,
+    _storageValue: Bytes
+  ): boolean {
+    let result = super.call(
+      "verifyOmniState",
+      "verifyOmniState(uint64,bytes,bytes,bytes):(bool)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_blockNumber),
+        ethereum.Value.fromBytes(_storageProof),
+        ethereum.Value.fromBytes(_storageKey),
+        ethereum.Value.fromBytes(_storageValue),
+      ]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_verifyOmniState(
+    _blockNumber: BigInt,
+    _storageProof: Bytes,
+    _storageKey: Bytes,
+    _storageValue: Bytes
+  ): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "verifyOmniState",
+      "verifyOmniState(uint64,bytes,bytes,bytes):(bool)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_blockNumber),
+        ethereum.Value.fromBytes(_storageProof),
+        ethereum.Value.fromBytes(_storageKey),
+        ethereum.Value.fromBytes(_storageValue),
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   owner(): Address {
@@ -3095,7 +3948,7 @@ export class OKP extends ethereum.SmartContract {
       "getBasicArenaCooldowns(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(_playerId),
-        ethereum.Value.fromUnsignedBigInt(_basicArenaId)
+        ethereum.Value.fromUnsignedBigInt(_basicArenaId),
       ]
     );
 
@@ -3111,7 +3964,7 @@ export class OKP extends ethereum.SmartContract {
       "getBasicArenaCooldowns(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(_playerId),
-        ethereum.Value.fromUnsignedBigInt(_basicArenaId)
+        ethereum.Value.fromUnsignedBigInt(_basicArenaId),
       ]
     );
     if (result.reverted) {
@@ -3169,7 +4022,7 @@ export class OKP extends ethereum.SmartContract {
 
   getTotalWins(_playerId: BigInt): BigInt {
     let result = super.call("getTotalWins", "getTotalWins(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(_playerId)
+      ethereum.Value.fromUnsignedBigInt(_playerId),
     ]);
 
     return result[0].toBigInt();
@@ -3180,6 +4033,155 @@ export class OKP extends ethereum.SmartContract {
       "getTotalWins",
       "getTotalWins(uint256):(uint256)",
       [ethereum.Value.fromUnsignedBigInt(_playerId)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  getChainData(_chainId: BigInt): OKP__getChainDataResultValue0Struct {
+    let result = super.call(
+      "getChainData",
+      "getChainData(uint256):((uint256,string,address,address))",
+      [ethereum.Value.fromUnsignedBigInt(_chainId)]
+    );
+
+    return changetype<OKP__getChainDataResultValue0Struct>(result[0].toTuple());
+  }
+
+  try_getChainData(
+    _chainId: BigInt
+  ): ethereum.CallResult<OKP__getChainDataResultValue0Struct> {
+    let result = super.tryCall(
+      "getChainData",
+      "getChainData(uint256):((uint256,string,address,address))",
+      [ethereum.Value.fromUnsignedBigInt(_chainId)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      changetype<OKP__getChainDataResultValue0Struct>(value[0].toTuple())
+    );
+  }
+
+  getFormat(_id: BigInt): OKP__getFormatResultValue0Struct {
+    let result = super.call(
+      "getFormat",
+      "getFormat(uint256):((uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,string,bool,address))",
+      [ethereum.Value.fromUnsignedBigInt(_id)]
+    );
+
+    return changetype<OKP__getFormatResultValue0Struct>(result[0].toTuple());
+  }
+
+  try_getFormat(
+    _id: BigInt
+  ): ethereum.CallResult<OKP__getFormatResultValue0Struct> {
+    let result = super.tryCall(
+      "getFormat",
+      "getFormat(uint256):((uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,string,bool,address))",
+      [ethereum.Value.fromUnsignedBigInt(_id)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      changetype<OKP__getFormatResultValue0Struct>(value[0].toTuple())
+    );
+  }
+
+  sanityCheck(_playerId: BigInt): OKP__sanityCheckResult {
+    let result = super.call(
+      "sanityCheck",
+      "sanityCheck(uint256):(uint256,uint256,uint256,uint256,uint256,bool)",
+      [ethereum.Value.fromUnsignedBigInt(_playerId)]
+    );
+
+    return new OKP__sanityCheckResult(
+      result[0].toBigInt(),
+      result[1].toBigInt(),
+      result[2].toBigInt(),
+      result[3].toBigInt(),
+      result[4].toBigInt(),
+      result[5].toBoolean()
+    );
+  }
+
+  try_sanityCheck(
+    _playerId: BigInt
+  ): ethereum.CallResult<OKP__sanityCheckResult> {
+    let result = super.tryCall(
+      "sanityCheck",
+      "sanityCheck(uint256):(uint256,uint256,uint256,uint256,uint256,bool)",
+      [ethereum.Value.fromUnsignedBigInt(_playerId)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new OKP__sanityCheckResult(
+        value[0].toBigInt(),
+        value[1].toBigInt(),
+        value[2].toBigInt(),
+        value[3].toBigInt(),
+        value[4].toBigInt(),
+        value[5].toBoolean()
+      )
+    );
+  }
+
+  getAdvancedCraft(
+    _advancedCraftId: BigInt
+  ): OKP__getAdvancedCraftResultValue0Struct {
+    let result = super.call(
+      "getAdvancedCraft",
+      "getAdvancedCraft(uint256):((uint256,uint256,uint256,uint256,uint256,uint256,string,string,string))",
+      [ethereum.Value.fromUnsignedBigInt(_advancedCraftId)]
+    );
+
+    return changetype<OKP__getAdvancedCraftResultValue0Struct>(
+      result[0].toTuple()
+    );
+  }
+
+  try_getAdvancedCraft(
+    _advancedCraftId: BigInt
+  ): ethereum.CallResult<OKP__getAdvancedCraftResultValue0Struct> {
+    let result = super.tryCall(
+      "getAdvancedCraft",
+      "getAdvancedCraft(uint256):((uint256,uint256,uint256,uint256,uint256,uint256,string,string,string))",
+      [ethereum.Value.fromUnsignedBigInt(_advancedCraftId)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      changetype<OKP__getAdvancedCraftResultValue0Struct>(value[0].toTuple())
+    );
+  }
+
+  getAdvancedCraftCount(): BigInt {
+    let result = super.call(
+      "getAdvancedCraftCount",
+      "getAdvancedCraftCount():(uint256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_getAdvancedCraftCount(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "getAdvancedCraftCount",
+      "getAdvancedCraftCount():(uint256)",
+      []
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -3350,7 +4352,7 @@ export class OKP extends ethereum.SmartContract {
 
   facetAddress(_functionSelector: Bytes): Address {
     let result = super.call("facetAddress", "facetAddress(bytes4):(address)", [
-      ethereum.Value.fromFixedBytes(_functionSelector)
+      ethereum.Value.fromFixedBytes(_functionSelector),
     ]);
 
     return result[0].toAddress();
@@ -3459,7 +4461,7 @@ export class OKP extends ethereum.SmartContract {
 
   balanceOf(owner: Address): BigInt {
     let result = super.call("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
@@ -3467,7 +4469,7 @@ export class OKP extends ethereum.SmartContract {
 
   try_balanceOf(owner: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -3478,7 +4480,7 @@ export class OKP extends ethereum.SmartContract {
 
   getApproved(tokenId: BigInt): Address {
     let result = super.call("getApproved", "getApproved(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toAddress();
@@ -3540,7 +4542,7 @@ export class OKP extends ethereum.SmartContract {
 
   ownerOf(tokenId: BigInt): Address {
     let result = super.call("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toAddress();
@@ -3548,7 +4550,7 @@ export class OKP extends ethereum.SmartContract {
 
   try_ownerOf(tokenId: BigInt): ethereum.CallResult<Address> {
     let result = super.tryCall("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -3574,7 +4576,7 @@ export class OKP extends ethereum.SmartContract {
 
   tokenURI(tokenId: BigInt): string {
     let result = super.call("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toString();
@@ -3582,7 +4584,7 @@ export class OKP extends ethereum.SmartContract {
 
   try_tokenURI(tokenId: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -3670,7 +4672,7 @@ export class OKP extends ethereum.SmartContract {
 
   owners(_playerId: BigInt): Address {
     let result = super.call("owners", "owners(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(_playerId)
+      ethereum.Value.fromUnsignedBigInt(_playerId),
     ]);
 
     return result[0].toAddress();
@@ -3678,7 +4680,7 @@ export class OKP extends ethereum.SmartContract {
 
   try_owners(_playerId: BigInt): ethereum.CallResult<Address> {
     let result = super.tryCall("owners", "owners(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(_playerId)
+      ethereum.Value.fromUnsignedBigInt(_playerId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -3722,7 +4724,7 @@ export class OKP extends ethereum.SmartContract {
       "getBasicMonsterCooldown(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(_playerId),
-        ethereum.Value.fromUnsignedBigInt(_monsterId)
+        ethereum.Value.fromUnsignedBigInt(_monsterId),
       ]
     );
 
@@ -3738,7 +4740,7 @@ export class OKP extends ethereum.SmartContract {
       "getBasicMonsterCooldown(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(_playerId),
-        ethereum.Value.fromUnsignedBigInt(_monsterId)
+        ethereum.Value.fromUnsignedBigInt(_monsterId),
       ]
     );
     if (result.reverted) {
@@ -3806,7 +4808,7 @@ export class OKP extends ethereum.SmartContract {
       "getMagicMonsterCooldown(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(_playerId),
-        ethereum.Value.fromUnsignedBigInt(_monsterId)
+        ethereum.Value.fromUnsignedBigInt(_monsterId),
       ]
     );
 
@@ -3822,7 +4824,7 @@ export class OKP extends ethereum.SmartContract {
       "getMagicMonsterCooldown(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(_playerId),
-        ethereum.Value.fromUnsignedBigInt(_monsterId)
+        ethereum.Value.fromUnsignedBigInt(_monsterId),
       ]
     );
     if (result.reverted) {
@@ -3876,7 +4878,7 @@ export class OKP extends ethereum.SmartContract {
       "claimedStatus(uint256,address):(bool)",
       [
         ethereum.Value.fromUnsignedBigInt(_playerDropId),
-        ethereum.Value.fromAddress(_address)
+        ethereum.Value.fromAddress(_address),
       ]
     );
 
@@ -3892,7 +4894,7 @@ export class OKP extends ethereum.SmartContract {
       "claimedStatus(uint256,address):(bool)",
       [
         ethereum.Value.fromUnsignedBigInt(_playerDropId),
-        ethereum.Value.fromAddress(_address)
+        ethereum.Value.fromAddress(_address),
       ]
     );
     if (result.reverted) {
@@ -3938,7 +4940,7 @@ export class OKP extends ethereum.SmartContract {
       [
         ethereum.Value.fromFixedBytesArray(_proof),
         ethereum.Value.fromUnsignedBigInt(_playerDropId),
-        ethereum.Value.fromAddress(_address)
+        ethereum.Value.fromAddress(_address),
       ]
     );
 
@@ -3956,7 +4958,7 @@ export class OKP extends ethereum.SmartContract {
       [
         ethereum.Value.fromFixedBytesArray(_proof),
         ethereum.Value.fromUnsignedBigInt(_playerDropId),
-        ethereum.Value.fromAddress(_address)
+        ethereum.Value.fromAddress(_address),
       ]
     );
     if (result.reverted) {
@@ -4010,7 +5012,7 @@ export class OKP extends ethereum.SmartContract {
 
   getPlayers(_address: Address): Array<BigInt> {
     let result = super.call("getPlayers", "getPlayers(address):(uint256[])", [
-      ethereum.Value.fromAddress(_address)
+      ethereum.Value.fromAddress(_address),
     ]);
 
     return result[0].toBigIntArray();
@@ -4050,7 +5052,7 @@ export class OKP extends ethereum.SmartContract {
         ethereum.Value.fromUnsignedBigInt(_relayerFees),
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_ackType)),
         ethereum.Value.fromBoolean(_isReadCall),
-        ethereum.Value.fromBytes(_asmAddress)
+        ethereum.Value.fromBytes(_asmAddress),
       ]
     );
 
@@ -4078,7 +5080,7 @@ export class OKP extends ethereum.SmartContract {
         ethereum.Value.fromUnsignedBigInt(_relayerFees),
         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(_ackType)),
         ethereum.Value.fromBoolean(_isReadCall),
-        ethereum.Value.fromBytes(_asmAddress)
+        ethereum.Value.fromBytes(_asmAddress),
       ]
     );
     if (result.reverted) {
@@ -4125,7 +5127,7 @@ export class OKP extends ethereum.SmartContract {
 
   nameAvailable(_name: string): boolean {
     let result = super.call("nameAvailable", "nameAvailable(string):(bool)", [
-      ethereum.Value.fromString(_name)
+      ethereum.Value.fromString(_name),
     ]);
 
     return result[0].toBoolean();
@@ -4184,7 +5186,7 @@ export class OKP extends ethereum.SmartContract {
 
   getCooldown(_playerId: BigInt): BigInt {
     let result = super.call("getCooldown", "getCooldown(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(_playerId)
+      ethereum.Value.fromUnsignedBigInt(_playerId),
     ]);
 
     return result[0].toBigInt();
@@ -4228,7 +5230,7 @@ export class OKP extends ethereum.SmartContract {
 
   getGemStart(_playerId: BigInt): BigInt {
     let result = super.call("getGemStart", "getGemStart(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(_playerId)
+      ethereum.Value.fromUnsignedBigInt(_playerId),
     ]);
 
     return result[0].toBigInt();
@@ -4272,7 +5274,7 @@ export class OKP extends ethereum.SmartContract {
 
   getGoldStart(_playerId: BigInt): BigInt {
     let result = super.call("getGoldStart", "getGoldStart(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(_playerId)
+      ethereum.Value.fromUnsignedBigInt(_playerId),
     ]);
 
     return result[0].toBigInt();
@@ -4289,56 +5291,6 @@ export class OKP extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  getTreasure(_treasureId: BigInt): OKP__getTreasureResultValue0Struct {
-    let result = super.call(
-      "getTreasure",
-      "getTreasure(uint256):((uint256,uint256,uint256,string,string))",
-      [ethereum.Value.fromUnsignedBigInt(_treasureId)]
-    );
-
-    return changetype<OKP__getTreasureResultValue0Struct>(result[0].toTuple());
-  }
-
-  try_getTreasure(
-    _treasureId: BigInt
-  ): ethereum.CallResult<OKP__getTreasureResultValue0Struct> {
-    let result = super.tryCall(
-      "getTreasure",
-      "getTreasure(uint256):((uint256,uint256,uint256,string,string))",
-      [ethereum.Value.fromUnsignedBigInt(_treasureId)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      changetype<OKP__getTreasureResultValue0Struct>(value[0].toTuple())
-    );
-  }
-
-  getTreasures(_playerId: BigInt): Array<BigInt> {
-    let result = super.call(
-      "getTreasures",
-      "getTreasures(uint256):(uint256[])",
-      [ethereum.Value.fromUnsignedBigInt(_playerId)]
-    );
-
-    return result[0].toBigIntArray();
-  }
-
-  try_getTreasures(_playerId: BigInt): ethereum.CallResult<Array<BigInt>> {
-    let result = super.tryCall(
-      "getTreasures",
-      "getTreasures(uint256):(uint256[])",
-      [ethereum.Value.fromUnsignedBigInt(_playerId)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigIntArray());
   }
 
   owner2(): Address {
@@ -4362,7 +5314,7 @@ export class OKP extends ethereum.SmartContract {
       "getBaiscPotionCount(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(_playerId),
-        ethereum.Value.fromUnsignedBigInt(_basicPotionSchemaId)
+        ethereum.Value.fromUnsignedBigInt(_basicPotionSchemaId),
       ]
     );
 
@@ -4378,7 +5330,7 @@ export class OKP extends ethereum.SmartContract {
       "getBaiscPotionCount(uint256,uint256):(uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(_playerId),
-        ethereum.Value.fromUnsignedBigInt(_basicPotionSchemaId)
+        ethereum.Value.fromUnsignedBigInt(_basicPotionSchemaId),
       ]
     );
     if (result.reverted) {
@@ -4467,7 +5419,7 @@ export class OKP extends ethereum.SmartContract {
 
   getManaStart(_playerId: BigInt): BigInt {
     let result = super.call("getManaStart", "getManaStart(uint256):(uint256)", [
-      ethereum.Value.fromUnsignedBigInt(_playerId)
+      ethereum.Value.fromUnsignedBigInt(_playerId),
     ]);
 
     return result[0].toBigInt();
@@ -4492,7 +5444,7 @@ export class OKP extends ethereum.SmartContract {
       "claimedStatus(uint256,address):(bool)",
       [
         ethereum.Value.fromUnsignedBigInt(_treasureDropId),
-        ethereum.Value.fromAddress(_address)
+        ethereum.Value.fromAddress(_address),
       ]
     );
 
@@ -4508,7 +5460,7 @@ export class OKP extends ethereum.SmartContract {
       "claimedStatus(uint256,address):(bool)",
       [
         ethereum.Value.fromUnsignedBigInt(_treasureDropId),
-        ethereum.Value.fromAddress(_address)
+        ethereum.Value.fromAddress(_address),
       ]
     );
     if (result.reverted) {
@@ -4554,7 +5506,7 @@ export class OKP extends ethereum.SmartContract {
       [
         ethereum.Value.fromFixedBytesArray(_proof),
         ethereum.Value.fromUnsignedBigInt(_treasureDropId),
-        ethereum.Value.fromAddress(_address)
+        ethereum.Value.fromAddress(_address),
       ]
     );
 
@@ -4572,7 +5524,7 @@ export class OKP extends ethereum.SmartContract {
       [
         ethereum.Value.fromFixedBytesArray(_proof),
         ethereum.Value.fromUnsignedBigInt(_treasureDropId),
-        ethereum.Value.fromAddress(_address)
+        ethereum.Value.fromAddress(_address),
       ]
     );
     if (result.reverted) {
@@ -4582,31 +5534,36 @@ export class OKP extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
-  getTreasure1(_treasureId: BigInt): OKP__getTreasure1ResultValue0Struct {
+  getTreasurePlayer(_playerId: BigInt, _treasureId: BigInt): BigInt {
     let result = super.call(
-      "getTreasure",
-      "getTreasure(uint256):((uint256,uint256,uint256,uint256,uint256,string,string))",
-      [ethereum.Value.fromUnsignedBigInt(_treasureId)]
+      "getTreasurePlayer",
+      "getTreasurePlayer(uint256,uint256):(uint256)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_playerId),
+        ethereum.Value.fromUnsignedBigInt(_treasureId),
+      ]
     );
 
-    return changetype<OKP__getTreasure1ResultValue0Struct>(result[0].toTuple());
+    return result[0].toBigInt();
   }
 
-  try_getTreasure1(
+  try_getTreasurePlayer(
+    _playerId: BigInt,
     _treasureId: BigInt
-  ): ethereum.CallResult<OKP__getTreasure1ResultValue0Struct> {
+  ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "getTreasure",
-      "getTreasure(uint256):((uint256,uint256,uint256,uint256,uint256,string,string))",
-      [ethereum.Value.fromUnsignedBigInt(_treasureId)]
+      "getTreasurePlayer",
+      "getTreasurePlayer(uint256,uint256):(uint256)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_playerId),
+        ethereum.Value.fromUnsignedBigInt(_treasureId),
+      ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(
-      changetype<OKP__getTreasure1ResultValue0Struct>(value[0].toTuple())
-    );
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   getTreasureSchema(
@@ -4665,7 +5622,7 @@ export class OKP extends ethereum.SmartContract {
 
   facetAddress1(_functionSelector: Bytes): Address {
     let result = super.call("facetAddress", "facetAddress(bytes4):(address)", [
-      ethereum.Value.fromFixedBytes(_functionSelector)
+      ethereum.Value.fromFixedBytes(_functionSelector),
     ]);
 
     return result[0].toAddress();
@@ -4755,7 +5712,7 @@ export class OKP extends ethereum.SmartContract {
       "balanceOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromUnsignedBigInt(id)
+        ethereum.Value.fromUnsignedBigInt(id),
       ]
     );
 
@@ -4768,7 +5725,7 @@ export class OKP extends ethereum.SmartContract {
       "balanceOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromUnsignedBigInt(id)
+        ethereum.Value.fromUnsignedBigInt(id),
       ]
     );
     if (result.reverted) {
@@ -4784,7 +5741,7 @@ export class OKP extends ethereum.SmartContract {
       "balanceOfBatch(address[],uint256[]):(uint256[])",
       [
         ethereum.Value.fromAddressArray(accounts),
-        ethereum.Value.fromUnsignedBigIntArray(ids)
+        ethereum.Value.fromUnsignedBigIntArray(ids),
       ]
     );
 
@@ -4800,7 +5757,7 @@ export class OKP extends ethereum.SmartContract {
       "balanceOfBatch(address[],uint256[]):(uint256[])",
       [
         ethereum.Value.fromAddressArray(accounts),
-        ethereum.Value.fromUnsignedBigIntArray(ids)
+        ethereum.Value.fromUnsignedBigIntArray(ids),
       ]
     );
     if (result.reverted) {
@@ -4816,7 +5773,7 @@ export class OKP extends ethereum.SmartContract {
       "isApprovedForAll(address,address):(bool)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromAddress(operator)
+        ethereum.Value.fromAddress(operator),
       ]
     );
 
@@ -4832,7 +5789,7 @@ export class OKP extends ethereum.SmartContract {
       "isApprovedForAll(address,address):(bool)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromAddress(operator)
+        ethereum.Value.fromAddress(operator),
       ]
     );
     if (result.reverted) {
@@ -4871,7 +5828,7 @@ export class OKP extends ethereum.SmartContract {
       "balanceOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromUnsignedBigInt(id)
+        ethereum.Value.fromUnsignedBigInt(id),
       ]
     );
 
@@ -4884,7 +5841,7 @@ export class OKP extends ethereum.SmartContract {
       "balanceOf(address,uint256):(uint256)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromUnsignedBigInt(id)
+        ethereum.Value.fromUnsignedBigInt(id),
       ]
     );
     if (result.reverted) {
@@ -4900,7 +5857,7 @@ export class OKP extends ethereum.SmartContract {
       "balanceOfBatch(address[],uint256[]):(uint256[])",
       [
         ethereum.Value.fromAddressArray(accounts),
-        ethereum.Value.fromUnsignedBigIntArray(ids)
+        ethereum.Value.fromUnsignedBigIntArray(ids),
       ]
     );
 
@@ -4916,7 +5873,7 @@ export class OKP extends ethereum.SmartContract {
       "balanceOfBatch(address[],uint256[]):(uint256[])",
       [
         ethereum.Value.fromAddressArray(accounts),
-        ethereum.Value.fromUnsignedBigIntArray(ids)
+        ethereum.Value.fromUnsignedBigIntArray(ids),
       ]
     );
     if (result.reverted) {
@@ -4932,7 +5889,7 @@ export class OKP extends ethereum.SmartContract {
       "isApprovedForAll(address,address):(bool)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromAddress(operator)
+        ethereum.Value.fromAddress(operator),
       ]
     );
 
@@ -4948,7 +5905,7 @@ export class OKP extends ethereum.SmartContract {
       "isApprovedForAll(address,address):(bool)",
       [
         ethereum.Value.fromAddress(account),
-        ethereum.Value.fromAddress(operator)
+        ethereum.Value.fromAddress(operator),
       ]
     );
     if (result.reverted) {
@@ -4983,7 +5940,7 @@ export class OKP extends ethereum.SmartContract {
 
   uri(id: BigInt): string {
     let result = super.call("uri", "uri(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(id)
+      ethereum.Value.fromUnsignedBigInt(id),
     ]);
 
     return result[0].toString();
@@ -4991,7 +5948,7 @@ export class OKP extends ethereum.SmartContract {
 
   try_uri(id: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("uri", "uri(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(id)
+      ethereum.Value.fromUnsignedBigInt(id),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -5015,7 +5972,7 @@ export class OKP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigIntArray(ids),
         ethereum.Value.fromUnsignedBigIntArray(values),
-        ethereum.Value.fromBytes(data)
+        ethereum.Value.fromBytes(data),
       ]
     );
 
@@ -5037,7 +5994,7 @@ export class OKP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigIntArray(ids),
         ethereum.Value.fromUnsignedBigIntArray(values),
-        ethereum.Value.fromBytes(data)
+        ethereum.Value.fromBytes(data),
       ]
     );
     if (result.reverted) {
@@ -5062,7 +6019,7 @@ export class OKP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(id),
         ethereum.Value.fromUnsignedBigInt(value),
-        ethereum.Value.fromBytes(data)
+        ethereum.Value.fromBytes(data),
       ]
     );
 
@@ -5084,7 +6041,7 @@ export class OKP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(id),
         ethereum.Value.fromUnsignedBigInt(value),
-        ethereum.Value.fromBytes(data)
+        ethereum.Value.fromBytes(data),
       ]
     );
     if (result.reverted) {
@@ -5157,7 +6114,7 @@ export class OKP extends ethereum.SmartContract {
 
   balanceOf3(owner: Address): BigInt {
     let result = super.call("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
@@ -5165,7 +6122,7 @@ export class OKP extends ethereum.SmartContract {
 
   try_balanceOf3(owner: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -5176,7 +6133,7 @@ export class OKP extends ethereum.SmartContract {
 
   getApproved1(tokenId: BigInt): Address {
     let result = super.call("getApproved", "getApproved(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toAddress();
@@ -5223,7 +6180,7 @@ export class OKP extends ethereum.SmartContract {
 
   ownerOf1(tokenId: BigInt): Address {
     let result = super.call("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toAddress();
@@ -5231,7 +6188,7 @@ export class OKP extends ethereum.SmartContract {
 
   try_ownerOf1(tokenId: BigInt): ethereum.CallResult<Address> {
     let result = super.tryCall("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -5265,7 +6222,7 @@ export class OKP extends ethereum.SmartContract {
 
   balanceOf4(owner: Address): BigInt {
     let result = super.call("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
 
     return result[0].toBigInt();
@@ -5273,7 +6230,7 @@ export class OKP extends ethereum.SmartContract {
 
   try_balanceOf4(owner: Address): ethereum.CallResult<BigInt> {
     let result = super.tryCall("balanceOf", "balanceOf(address):(uint256)", [
-      ethereum.Value.fromAddress(owner)
+      ethereum.Value.fromAddress(owner),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -5284,7 +6241,7 @@ export class OKP extends ethereum.SmartContract {
 
   getApproved2(tokenId: BigInt): Address {
     let result = super.call("getApproved", "getApproved(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toAddress();
@@ -5346,7 +6303,7 @@ export class OKP extends ethereum.SmartContract {
 
   ownerOf2(tokenId: BigInt): Address {
     let result = super.call("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toAddress();
@@ -5354,7 +6311,7 @@ export class OKP extends ethereum.SmartContract {
 
   try_ownerOf2(tokenId: BigInt): ethereum.CallResult<Address> {
     let result = super.tryCall("ownerOf", "ownerOf(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -5403,7 +6360,7 @@ export class OKP extends ethereum.SmartContract {
 
   tokenURI1(tokenId: BigInt): string {
     let result = super.call("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
 
     return result[0].toString();
@@ -5411,7 +6368,7 @@ export class OKP extends ethereum.SmartContract {
 
   try_tokenURI1(tokenId: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(tokenId),
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -5433,7 +6390,7 @@ export class OKP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(operator),
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(tokenId),
-        ethereum.Value.fromBytes(data)
+        ethereum.Value.fromBytes(data),
       ]
     );
 
@@ -5453,7 +6410,7 @@ export class OKP extends ethereum.SmartContract {
         ethereum.Value.fromAddress(operator),
         ethereum.Value.fromAddress(from),
         ethereum.Value.fromUnsignedBigInt(tokenId),
-        ethereum.Value.fromBytes(data)
+        ethereum.Value.fromBytes(data),
       ]
     );
     if (result.reverted) {
@@ -5518,6 +6475,78 @@ export class OKP extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+}
+
+export class SendOmniTxCall extends ethereum.Call {
+  get inputs(): SendOmniTxCall__Inputs {
+    return new SendOmniTxCall__Inputs(this);
+  }
+
+  get outputs(): SendOmniTxCall__Outputs {
+    return new SendOmniTxCall__Outputs(this);
+  }
+}
+
+export class SendOmniTxCall__Inputs {
+  _call: SendOmniTxCall;
+
+  constructor(call: SendOmniTxCall) {
+    this._call = call;
+  }
+
+  get _to(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _data(): Bytes {
+    return this._call.inputValues[1].value.toBytes();
+  }
+}
+
+export class SendOmniTxCall__Outputs {
+  _call: SendOmniTxCall;
+
+  constructor(call: SendOmniTxCall) {
+    this._call = call;
+  }
+}
+
+export class SendXChainTxCall extends ethereum.Call {
+  get inputs(): SendXChainTxCall__Inputs {
+    return new SendXChainTxCall__Inputs(this);
+  }
+
+  get outputs(): SendXChainTxCall__Outputs {
+    return new SendXChainTxCall__Outputs(this);
+  }
+}
+
+export class SendXChainTxCall__Inputs {
+  _call: SendXChainTxCall;
+
+  constructor(call: SendXChainTxCall) {
+    this._call = call;
+  }
+
+  get _chain(): string {
+    return this._call.inputValues[0].value.toString();
+  }
+
+  get _to(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _data(): Bytes {
+    return this._call.inputValues[2].value.toBytes();
+  }
+}
+
+export class SendXChainTxCall__Outputs {
+  _call: SendXChainTxCall;
+
+  constructor(call: SendXChainTxCall) {
+    this._call = call;
   }
 }
 
@@ -5721,6 +6750,350 @@ export class LeaveBasicArenaCall__Outputs {
   }
 }
 
+export class BridgeGoldCall extends ethereum.Call {
+  get inputs(): BridgeGoldCall__Inputs {
+    return new BridgeGoldCall__Inputs(this);
+  }
+
+  get outputs(): BridgeGoldCall__Outputs {
+    return new BridgeGoldCall__Outputs(this);
+  }
+}
+
+export class BridgeGoldCall__Inputs {
+  _call: BridgeGoldCall;
+
+  constructor(call: BridgeGoldCall) {
+    this._call = call;
+  }
+
+  get _chain(): string {
+    return this._call.inputValues[0].value.toString();
+  }
+
+  get _contract(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _amount(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+}
+
+export class BridgeGoldCall__Outputs {
+  _call: BridgeGoldCall;
+
+  constructor(call: BridgeGoldCall) {
+    this._call = call;
+  }
+}
+
+export class BridgePlayerCall extends ethereum.Call {
+  get inputs(): BridgePlayerCall__Inputs {
+    return new BridgePlayerCall__Inputs(this);
+  }
+
+  get outputs(): BridgePlayerCall__Outputs {
+    return new BridgePlayerCall__Outputs(this);
+  }
+}
+
+export class BridgePlayerCall__Inputs {
+  _call: BridgePlayerCall;
+
+  constructor(call: BridgePlayerCall) {
+    this._call = call;
+  }
+
+  get _playerId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _chainId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+}
+
+export class BridgePlayerCall__Outputs {
+  _call: BridgePlayerCall;
+
+  constructor(call: BridgePlayerCall) {
+    this._call = call;
+  }
+}
+
+export class BridgePlayerTestCall extends ethereum.Call {
+  get inputs(): BridgePlayerTestCall__Inputs {
+    return new BridgePlayerTestCall__Inputs(this);
+  }
+
+  get outputs(): BridgePlayerTestCall__Outputs {
+    return new BridgePlayerTestCall__Outputs(this);
+  }
+}
+
+export class BridgePlayerTestCall__Inputs {
+  _call: BridgePlayerTestCall;
+
+  constructor(call: BridgePlayerTestCall) {
+    this._call = call;
+  }
+
+  get _playerId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _chain(): string {
+    return this._call.inputValues[1].value.toString();
+  }
+
+  get _contract(): Address {
+    return this._call.inputValues[2].value.toAddress();
+  }
+}
+
+export class BridgePlayerTestCall__Outputs {
+  _call: BridgePlayerTestCall;
+
+  constructor(call: BridgePlayerTestCall) {
+    this._call = call;
+  }
+}
+
+export class CreateBridgeCall extends ethereum.Call {
+  get inputs(): CreateBridgeCall__Inputs {
+    return new CreateBridgeCall__Inputs(this);
+  }
+
+  get outputs(): CreateBridgeCall__Outputs {
+    return new CreateBridgeCall__Outputs(this);
+  }
+}
+
+export class CreateBridgeCall__Inputs {
+  _call: CreateBridgeCall;
+
+  constructor(call: CreateBridgeCall) {
+    this._call = call;
+  }
+
+  get _chainId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _name(): string {
+    return this._call.inputValues[1].value.toString();
+  }
+
+  get _portal(): Address {
+    return this._call.inputValues[2].value.toAddress();
+  }
+
+  get _diamond(): Address {
+    return this._call.inputValues[3].value.toAddress();
+  }
+}
+
+export class CreateBridgeCall__Outputs {
+  _call: CreateBridgeCall;
+
+  constructor(call: CreateBridgeCall) {
+    this._call = call;
+  }
+}
+
+export class FreeGoldCall extends ethereum.Call {
+  get inputs(): FreeGoldCall__Inputs {
+    return new FreeGoldCall__Inputs(this);
+  }
+
+  get outputs(): FreeGoldCall__Outputs {
+    return new FreeGoldCall__Outputs(this);
+  }
+}
+
+export class FreeGoldCall__Inputs {
+  _call: FreeGoldCall;
+
+  constructor(call: FreeGoldCall) {
+    this._call = call;
+  }
+}
+
+export class FreeGoldCall__Outputs {
+  _call: FreeGoldCall;
+
+  constructor(call: FreeGoldCall) {
+    this._call = call;
+  }
+}
+
+export class ReMintPlayerCall extends ethereum.Call {
+  get inputs(): ReMintPlayerCall__Inputs {
+    return new ReMintPlayerCall__Inputs(this);
+  }
+
+  get outputs(): ReMintPlayerCall__Outputs {
+    return new ReMintPlayerCall__Outputs(this);
+  }
+}
+
+export class ReMintPlayerCall__Inputs {
+  _call: ReMintPlayerCall;
+
+  constructor(call: ReMintPlayerCall) {
+    this._call = call;
+  }
+
+  get _format(): ReMintPlayerCall_formatStruct {
+    return changetype<ReMintPlayerCall_formatStruct>(
+      this._call.inputValues[0].value.toTuple()
+    );
+  }
+}
+
+export class ReMintPlayerCall__Outputs {
+  _call: ReMintPlayerCall;
+
+  constructor(call: ReMintPlayerCall) {
+    this._call = call;
+  }
+}
+
+export class ReMintPlayerCall_formatStruct extends ethereum.Tuple {
+  get level(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get xp(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get strength(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get health(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get magic(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get maxMana(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get agility(): BigInt {
+    return this[7].toBigInt();
+  }
+
+  get defense(): BigInt {
+    return this[8].toBigInt();
+  }
+
+  get baseChain(): BigInt {
+    return this[9].toBigInt();
+  }
+
+  get baseId(): BigInt {
+    return this[10].toBigInt();
+  }
+
+  get name(): string {
+    return this[11].toString();
+  }
+
+  get isMale(): boolean {
+    return this[12].toBoolean();
+  }
+
+  get sender(): Address {
+    return this[13].toAddress();
+  }
+}
+
+export class ReceiveGoldCall extends ethereum.Call {
+  get inputs(): ReceiveGoldCall__Inputs {
+    return new ReceiveGoldCall__Inputs(this);
+  }
+
+  get outputs(): ReceiveGoldCall__Outputs {
+    return new ReceiveGoldCall__Outputs(this);
+  }
+}
+
+export class ReceiveGoldCall__Inputs {
+  _call: ReceiveGoldCall;
+
+  constructor(call: ReceiveGoldCall) {
+    this._call = call;
+  }
+
+  get _format(): ReceiveGoldCall_formatStruct {
+    return changetype<ReceiveGoldCall_formatStruct>(
+      this._call.inputValues[0].value.toTuple()
+    );
+  }
+}
+
+export class ReceiveGoldCall__Outputs {
+  _call: ReceiveGoldCall;
+
+  constructor(call: ReceiveGoldCall) {
+    this._call = call;
+  }
+}
+
+export class ReceiveGoldCall_formatStruct extends ethereum.Tuple {
+  get sender(): Address {
+    return this[0].toAddress();
+  }
+
+  get amount(): BigInt {
+    return this[1].toBigInt();
+  }
+}
+
+export class AdvancedCraftCall extends ethereum.Call {
+  get inputs(): AdvancedCraftCall__Inputs {
+    return new AdvancedCraftCall__Inputs(this);
+  }
+
+  get outputs(): AdvancedCraftCall__Outputs {
+    return new AdvancedCraftCall__Outputs(this);
+  }
+}
+
+export class AdvancedCraftCall__Inputs {
+  _call: AdvancedCraftCall;
+
+  constructor(call: AdvancedCraftCall) {
+    this._call = call;
+  }
+
+  get _playerId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _advancedCraftId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get _equipmentId(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+}
+
+export class AdvancedCraftCall__Outputs {
+  _call: AdvancedCraftCall;
+
+  constructor(call: AdvancedCraftCall) {
+    this._call = call;
+  }
+}
+
 export class BasicCraftCall extends ethereum.Call {
   get inputs(): BasicCraftCall__Inputs {
     return new BasicCraftCall__Inputs(this);
@@ -5755,6 +7128,64 @@ export class BasicCraftCall__Outputs {
   _call: BasicCraftCall;
 
   constructor(call: BasicCraftCall) {
+    this._call = call;
+  }
+}
+
+export class CreateAdvancedCraftCall extends ethereum.Call {
+  get inputs(): CreateAdvancedCraftCall__Inputs {
+    return new CreateAdvancedCraftCall__Inputs(this);
+  }
+
+  get outputs(): CreateAdvancedCraftCall__Outputs {
+    return new CreateAdvancedCraftCall__Outputs(this);
+  }
+}
+
+export class CreateAdvancedCraftCall__Inputs {
+  _call: CreateAdvancedCraftCall;
+
+  constructor(call: CreateAdvancedCraftCall) {
+    this._call = call;
+  }
+
+  get _treasureSchemaId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _slot(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get _value(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get _stat(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get _amount(): BigInt {
+    return this._call.inputValues[4].value.toBigInt();
+  }
+
+  get _oldName(): string {
+    return this._call.inputValues[5].value.toString();
+  }
+
+  get _newName(): string {
+    return this._call.inputValues[6].value.toString();
+  }
+
+  get _uri(): string {
+    return this._call.inputValues[7].value.toString();
+  }
+}
+
+export class CreateAdvancedCraftCall__Outputs {
+  _call: CreateAdvancedCraftCall;
+
+  constructor(call: CreateAdvancedCraftCall) {
     this._call = call;
   }
 }
@@ -5885,6 +7316,60 @@ export class PurchaseBasicEquipmentCall__Outputs {
   _call: PurchaseBasicEquipmentCall;
 
   constructor(call: PurchaseBasicEquipmentCall) {
+    this._call = call;
+  }
+}
+
+export class UpdateBasicEquipmentScehmaCall extends ethereum.Call {
+  get inputs(): UpdateBasicEquipmentScehmaCall__Inputs {
+    return new UpdateBasicEquipmentScehmaCall__Inputs(this);
+  }
+
+  get outputs(): UpdateBasicEquipmentScehmaCall__Outputs {
+    return new UpdateBasicEquipmentScehmaCall__Outputs(this);
+  }
+}
+
+export class UpdateBasicEquipmentScehmaCall__Inputs {
+  _call: UpdateBasicEquipmentScehmaCall;
+
+  constructor(call: UpdateBasicEquipmentScehmaCall) {
+    this._call = call;
+  }
+
+  get _basicEquipmentSchemaId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _slot(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get _value(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get _stat(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get _cost(): BigInt {
+    return this._call.inputValues[4].value.toBigInt();
+  }
+
+  get _name(): string {
+    return this._call.inputValues[5].value.toString();
+  }
+
+  get _uri(): string {
+    return this._call.inputValues[6].value.toString();
+  }
+}
+
+export class UpdateBasicEquipmentScehmaCall__Outputs {
+  _call: UpdateBasicEquipmentScehmaCall;
+
+  constructor(call: UpdateBasicEquipmentScehmaCall) {
     this._call = call;
   }
 }
@@ -7079,6 +8564,36 @@ export class TransferOwnership2Call__Outputs {
   }
 }
 
+export class EmitLevelCall extends ethereum.Call {
+  get inputs(): EmitLevelCall__Inputs {
+    return new EmitLevelCall__Inputs(this);
+  }
+
+  get outputs(): EmitLevelCall__Outputs {
+    return new EmitLevelCall__Outputs(this);
+  }
+}
+
+export class EmitLevelCall__Inputs {
+  _call: EmitLevelCall;
+
+  constructor(call: EmitLevelCall) {
+    this._call = call;
+  }
+
+  get _id(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class EmitLevelCall__Outputs {
+  _call: EmitLevelCall;
+
+  constructor(call: EmitLevelCall) {
+    this._call = call;
+  }
+}
+
 export class LevelUpScriptCall extends ethereum.Call {
   get inputs(): LevelUpScriptCall__Inputs {
     return new LevelUpScriptCall__Inputs(this);
@@ -7483,6 +8998,40 @@ export class CreateTreasureSchemaCall__Outputs {
   _call: CreateTreasureSchemaCall;
 
   constructor(call: CreateTreasureSchemaCall) {
+    this._call = call;
+  }
+}
+
+export class MintTreasureCall extends ethereum.Call {
+  get inputs(): MintTreasureCall__Inputs {
+    return new MintTreasureCall__Inputs(this);
+  }
+
+  get outputs(): MintTreasureCall__Outputs {
+    return new MintTreasureCall__Outputs(this);
+  }
+}
+
+export class MintTreasureCall__Inputs {
+  _call: MintTreasureCall;
+
+  constructor(call: MintTreasureCall) {
+    this._call = call;
+  }
+
+  get _playerId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _treasureSchemaId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+}
+
+export class MintTreasureCall__Outputs {
+  _call: MintTreasureCall;
+
+  constructor(call: MintTreasureCall) {
     this._call = call;
   }
 }

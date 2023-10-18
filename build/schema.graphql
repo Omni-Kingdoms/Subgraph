@@ -26,7 +26,9 @@ type Player @entity {
   totalLosses: Int! #uint256
   potionBalance: [BasicPotionBalance!]! @derivedFrom(field: "player") 
   equipment: [Equipment!]! @derivedFrom(field: "player") 
+  treasureBalance: [TreasureBalance!]! @derivedFrom(field: "player")
   arenaResult: [ArenaResults!]! @derivedFrom(field: "player")
+
 }
 
 type Equipment @entity {
@@ -51,6 +53,7 @@ type EquipmentInStore @entity{
   uri: String! #string
 }
 
+
 type BasicCraft @entity {
   id: ID!
   slot: String! #string
@@ -61,10 +64,22 @@ type BasicCraft @entity {
   uri: String! #string
 }
 
+type AdvancedCraft @entity {
+  id: ID!
+  slot: String! #string
+  value: Int! #uint256
+  stat: String! #string
+  treasure: Treasure! 
+  oldName: String! #string
+  newName: String! #string
+  uri: String! #string
+}
+
 type EquipCount @entity {
   id: ID!
   count: Int! #uint256
 }
+
 
 type Monster @entity {
   id: ID!
@@ -85,6 +100,21 @@ type MagicMonster @entity {
   name: String! #uint256
   uri: String! #uint256
 }
+
+type Treasure @entity {
+  id: ID!
+  rank: Int! #uint256
+  name: String! #string
+  uri: String! #string
+  TreasureBalance: [TreasureBalance!]! @derivedFrom(field: "treasure")
+}
+type TreasureBalance @entity {
+  id: ID!
+  balance: Int!
+  treasure: Treasure!
+  player: Player! #uint256
+}
+
 
 type BasicPotion @entity {
   id: ID!

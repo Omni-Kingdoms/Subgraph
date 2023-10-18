@@ -357,6 +357,14 @@ export class Player extends Entity {
     );
   }
 
+  get treasureBalance(): TreasureBalanceLoader {
+    return new TreasureBalanceLoader(
+      "Player",
+      this.get("id")!.toString(),
+      "treasureBalance"
+    );
+  }
+
   get arenaResult(): ArenaResultsLoader {
     return new ArenaResultsLoader(
       "Player",
@@ -750,6 +758,139 @@ export class BasicCraft extends Entity {
   }
 }
 
+export class AdvancedCraft extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save AdvancedCraft entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type AdvancedCraft must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("AdvancedCraft", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): AdvancedCraft | null {
+    return changetype<AdvancedCraft | null>(
+      store.get_in_block("AdvancedCraft", id)
+    );
+  }
+
+  static load(id: string): AdvancedCraft | null {
+    return changetype<AdvancedCraft | null>(store.get("AdvancedCraft", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get slot(): string {
+    let value = this.get("slot");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set slot(value: string) {
+    this.set("slot", Value.fromString(value));
+  }
+
+  get value(): i32 {
+    let value = this.get("value");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set value(value: i32) {
+    this.set("value", Value.fromI32(value));
+  }
+
+  get stat(): string {
+    let value = this.get("stat");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set stat(value: string) {
+    this.set("stat", Value.fromString(value));
+  }
+
+  get treasure(): string {
+    let value = this.get("treasure");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set treasure(value: string) {
+    this.set("treasure", Value.fromString(value));
+  }
+
+  get oldName(): string {
+    let value = this.get("oldName");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set oldName(value: string) {
+    this.set("oldName", Value.fromString(value));
+  }
+
+  get newName(): string {
+    let value = this.get("newName");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set newName(value: string) {
+    this.set("newName", Value.fromString(value));
+  }
+
+  get uri(): string {
+    let value = this.get("uri");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
+  }
+}
+
 export class EquipCount extends Entity {
   constructor(id: string) {
     super();
@@ -1051,6 +1192,174 @@ export class MagicMonster extends Entity {
 
   set uri(value: string) {
     this.set("uri", Value.fromString(value));
+  }
+}
+
+export class Treasure extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Treasure entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Treasure must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Treasure", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): Treasure | null {
+    return changetype<Treasure | null>(store.get_in_block("Treasure", id));
+  }
+
+  static load(id: string): Treasure | null {
+    return changetype<Treasure | null>(store.get("Treasure", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get rank(): i32 {
+    let value = this.get("rank");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set rank(value: i32) {
+    this.set("rank", Value.fromI32(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get uri(): string {
+    let value = this.get("uri");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
+  }
+
+  get TreasureBalance(): TreasureBalanceLoader {
+    return new TreasureBalanceLoader(
+      "Treasure",
+      this.get("id")!.toString(),
+      "TreasureBalance"
+    );
+  }
+}
+
+export class TreasureBalance extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TreasureBalance entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TreasureBalance must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("TreasureBalance", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): TreasureBalance | null {
+    return changetype<TreasureBalance | null>(
+      store.get_in_block("TreasureBalance", id)
+    );
+  }
+
+  static load(id: string): TreasureBalance | null {
+    return changetype<TreasureBalance | null>(store.get("TreasureBalance", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get balance(): i32 {
+    let value = this.get("balance");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set balance(value: i32) {
+    this.set("balance", Value.fromI32(value));
+  }
+
+  get treasure(): string {
+    let value = this.get("treasure");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set treasure(value: string) {
+    this.set("treasure", Value.fromString(value));
+  }
+
+  get player(): string {
+    let value = this.get("player");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set player(value: string) {
+    this.set("player", Value.fromString(value));
   }
 }
 
@@ -1724,6 +2033,24 @@ export class EquipmentLoader extends Entity {
   load(): Equipment[] {
     let value = store.loadRelated(this._entity, this._id, this._field);
     return changetype<Equipment[]>(value);
+  }
+}
+
+export class TreasureBalanceLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): TreasureBalance[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<TreasureBalance[]>(value);
   }
 }
 

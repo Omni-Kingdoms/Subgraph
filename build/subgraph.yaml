@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: OKP
-    network: scrollSepolia
+    network: mainnet
     source:
-      address: "0xE62a60247D0b9c1D09193b0F60875bc49878f5DF"
+      address: "0xba88AA97A4D6ca616677F74cc5d065135865896A"
       abi: OKP
-      startBlock: 12504
+      startBlock: 1208159
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -98,4 +98,13 @@ dataSources:
           handler: handleBasicCraftEvent
         - event: LevelUpPatch(indexed uint256)
           handler: handleLevelUpPatch
+        - event: CreateAdvancedCraft(indexed
+            uint256,(uint256,uint256,uint256,uint256,uint256,uint256,string,string,string))
+          handler: handleCreateAdvancedCraft
+        - event: AdvancedCraftEvent(indexed uint256,uint256,uint256)
+          handler: handleAdvancedCraftEvent
+        - event: TreasureSchemaCreation((uint256,uint256,string,string))
+          handler: handleTreasureSchemaCreation
+        - event: MintTreasure(uint256,(uint256,uint256,string,string))
+          handler: handleMintTreasure
       file: OKP\OKP.wasm

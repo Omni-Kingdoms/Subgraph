@@ -31,6 +31,10 @@ import {
   BasicCraftEvent,
   LevelUpPatch as LevelUpPatchEvent,
   OKP,
+  CreateAdvancedCraft as CreateAdvancedCraftEvent,
+  AdvancedCraftEvent,
+  TreasureSchemaCreation as TreasureSchemaCreationEvent,
+  MintTreasure as MintTreasureEvent,
 } from "../generated/OKP/OKP";
 import {
   User,
@@ -47,6 +51,9 @@ import {
   ArenaResults,
   Sale,
   Listing,
+  AdvancedCraft,
+  Treasure,
+  TreasureBalance,
 } from "../generated/schema";
 import { store, BigInt, bigInt } from "@graphprotocol/graph-ts";
 
@@ -94,6 +101,18 @@ export function handleMint(event: MintEvent): void {
     entity.magic = 12;
     entity.agility = 10;
     entity.defense = 10;
+  }
+  if (class_id == "3") {
+    entity.classes = "Paladin";
+
+    entity.maxHealth = 13;
+    entity.currentHealth = 13;
+    entity.maxMana = 13;
+    entity.currentMana = 13;
+    entity.strength = 13;
+    entity.magic = 13;
+    entity.agility = 13;
+    entity.defense = 13;
   }
   entity.Player_id = event.params.id;
   entity.user = event.params.owner.toHexString();
@@ -286,6 +305,28 @@ export function handlePurchaseBasicPotion(
   }
 }
 
+export function handleMintTreasure(event: MintTreasureEvent): void {
+  let treasure_id = event.params._treasureSchemaId.basicTreasureId.toString();
+  let treasure = Treasure.load(treasure_id);
+  let player_id = event.params._playerId.toString();
+  let player = Player.load(player_id);
+  let treasureBalanceId = player_id.concat("-").concat(treasure_id);
+  let treasureBalance = TreasureBalance.load(treasureBalanceId);
+
+  if (treasure && player) {
+    if (treasureBalance === null) {
+      treasureBalance = new TreasureBalance(treasureBalanceId);
+      treasureBalance.treasure = treasure.id;
+      treasureBalance.player = player.id;
+      treasureBalance.balance = treasureBalance.balance + 1;
+      treasureBalance.save();
+    } else {
+      treasureBalance.balance = treasureBalance.balance + 1;
+      treasureBalance.save();
+    }
+  }
+}
+
 export function handleConsumeBasicPotion(event: ConsumeBasicPotionEvent): void {
   let potion_id = event.params._basicPotionSchemaId.toString();
   let potion = BasicPotion.load(potion_id);
@@ -369,6 +410,17 @@ export function handleBasicEquipmentSchemaCreated(
   entity.uri = event.params._basicEQuipmentSchema.uri.toString();
   entity.save();
 }
+export function handleTreasureSchemaCreation(
+  event: TreasureSchemaCreationEvent
+): void {
+  let entity = new Treasure(
+    event.params._treasureSchemaId.basicTreasureId.toString()
+  );
+  entity.rank = event.params._treasureSchemaId.rank.toI32();
+  entity.name = event.params._treasureSchemaId.name.toString();
+  entity.uri = event.params._treasureSchemaId.uri.toString();
+  entity.save();
+}
 
 export function handleItemEquiped(event: ItemEquipedEvent): void {
   let player_id = event.params._playerId.toString();
@@ -378,23 +430,23 @@ export function handleItemEquiped(event: ItemEquipedEvent): void {
 
   if (player && equipment) {
     equipment.isEquipped = true;
-    if (equipment.stat == "0") {
+    if (equipment.stat == "strength") {
       player.strength = player.strength + equipment.value;
     }
-    if (equipment.stat == "1") {
+    if (equipment.stat == "health") {
       player.maxHealth = player.maxHealth + equipment.value;
       player.currentHealth = player.currentHealth + equipment.value;
     }
-    if (equipment.stat == "2") {
+    if (equipment.stat == "agility") {
       player.agility = player.agility + equipment.value;
     }
-    if (equipment.stat == "3") {
+    if (equipment.stat == "magic") {
       player.magic = player.magic + equipment.value;
     }
-    if (equipment.stat == "4") {
+    if (equipment.stat == "defense") {
       player.defense = player.defense + equipment.value;
     }
-    if (equipment.stat == "5") {
+    if (equipment.stat == "mana") {
       player.maxMana = player.maxMana + equipment.value;
       player.currentMana = player.currentMana + equipment.value;
     }
@@ -442,6 +494,7 @@ export function handleItemUnequiped(event: ItemUnequipedEvent): void {
     player.save();
   }
 }
+
 export function handlePurchaseBasicEquipment(
   event: PurchaseBasicEquipmentEvent
 ): void {
@@ -677,6 +730,87 @@ export function handleCreateBasicCraft(event: CreateBasicCraftEvent): void {
   craft.save();
 }
 
+export function handleCreateAdvancedCraft(
+  event: CreateAdvancedCraftEvent
+): void {
+  let craft = new AdvancedCraft(event.params.id.toString());
+  let slot = event.params._advancedCraft.slot.toString();
+  if (slot == "0") {
+    craft.slot = "head";
+  }
+  if (slot == "1") {
+    craft.slot = "body";
+  }
+  if (slot == "2") {
+    craft.slot = "lefthand";
+  }
+  if (slot == "3") {
+    craft.slot = "righthand";
+  }
+  if (slot == "4") {
+    craft.slot = "pants";
+  }
+  if (slot == "5") {
+    craft.slot = "feet";
+  }
+  if (slot == "6") {
+    craft.slot = "neck";
+  }
+  let stat = event.params._advancedCraft.stat.toString();
+  if (stat == "0") {
+    craft.stat = "strength";
+  }
+  if (stat == "1") {
+    craft.stat = "health";
+  }
+  if (stat == "2") {
+    craft.stat = "agility";
+  }
+  if (stat == "3") {
+    craft.stat = "magic";
+  }
+  if (stat == "4") {
+    craft.stat = "defense";
+  }
+  if (stat == "5") {
+    craft.stat = "mana";
+  }
+  if (stat == "6") {
+    craft.stat = "luck";
+  }
+  craft.treasure = event.params._advancedCraft.treasureSchemaId.toString();
+  craft.value = event.params._advancedCraft.value.toI32();
+  craft.oldName = event.params._advancedCraft.oldName.toString();
+  craft.newName = event.params._advancedCraft.newName.toString();
+  craft.uri = event.params._advancedCraft.uri.toString();
+  craft.save();
+}
+
+export function handleAdvancedCraftEvent(event: AdvancedCraftEvent): void {
+  let craft = AdvancedCraft.load(event.params._advancedCraftId.toString());
+  let equipment = Equipment.load(event.params._equipmentId.toString());
+  let player_id = event.params._playerId.toString();
+
+  if (craft && equipment) {
+    let treasureBalanceId = player_id.concat("-").concat(craft.treasure);
+    let treasureBalance = TreasureBalance.load(treasureBalanceId);
+    if (treasureBalance) {
+      equipment.rank++;
+      equipment.value = craft.value;
+      equipment.name = craft.newName;
+      equipment.uri = craft.uri;
+      equipment.slot = craft.slot;
+      equipment.save();
+      treasureBalance.balance = treasureBalance.balance - 1;
+      if (treasureBalance.balance == 0) {
+        store.remove("TreasureBalance", treasureBalance.id);
+      } else {
+        treasureBalance.save();
+      }
+    }
+  }
+}
+
 export function handleBasicCraftEvent(event: BasicCraftEvent): void {
   let craft = BasicCraft.load(event.params._craftId.toString());
   let equipment = Equipment.load(event.params._equipmentId.toString());
@@ -686,6 +820,7 @@ export function handleBasicCraftEvent(event: BasicCraftEvent): void {
     equipment.value = craft.value;
     equipment.name = craft.newName;
     equipment.uri = craft.uri;
+    equipment.save();
   }
 }
 
