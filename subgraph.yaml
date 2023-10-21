@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: OKP
-    network: mainnet
+    network: scroll
     source:
-      address: "0xba88AA97A4D6ca616677F74cc5d065135865896A"
+      address: "0x4ea995fBA65292D65F2Ee65CFd5402d7923c2c43"
       abi: OKP
-      startBlock: 1208159
+      startBlock: 87070
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
